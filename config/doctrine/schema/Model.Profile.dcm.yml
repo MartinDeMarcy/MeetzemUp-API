@@ -1,0 +1,24 @@
+#config/doctrine/schema/Model.Profile.dcm.yml
+Model\Profile:
+    type: entity
+    table: profile
+    fields:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+        user_id:
+            type: integer
+        leader:
+            type: string
+            lenght: 500
+        creative:
+            type: string
+            lenght: 500
+        class:
+            type: string
+            lenght: 500
+        last_update:
+            type: datetime
+            columnDefinition: TIMESTAMP DEFAULT CURRENT_TIMESTAMP

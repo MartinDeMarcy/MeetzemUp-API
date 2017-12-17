@@ -1,0 +1,32 @@
+#config/doctrine/schema/Model.Text.dcm.yml
+Model\Text:
+    type: entity
+    table: text
+    fields:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+        user_id:
+            type: integer
+        content:
+            type: string
+            lenght: 500
+        context:
+            type: string
+            lenght: 500
+        feeling:
+            type: string
+            lenght: 500
+        representation:
+            type: string
+            lenght: 500
+        classification:
+            type: string
+            lenght: 500
+        processed:
+            type: integer
+        last_update:
+            type: datetime
+            columnDefinition: TIMESTAMP DEFAULT CURRENT_TIMESTAMP

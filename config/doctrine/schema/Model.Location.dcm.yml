@@ -1,0 +1,25 @@
+#config/doctrine/schema/Model.Location.dcm.yml
+Model\Location:
+    type: entity
+    table: location
+    fields:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+        user_id:
+            type: integer
+        latitude:
+            type: float
+        longitude:
+            type: float
+        city:
+            type: string
+            lenght: 500
+        country:
+            type: string
+            lenght: 500
+        last_update:
+            type: datetime
+            columnDefinition: TIMESTAMP DEFAULT CURRENT_TIMESTAMP

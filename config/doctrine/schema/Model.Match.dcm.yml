@@ -1,0 +1,19 @@
+#config/doctrine/schema/Model.Match.dcm.yml
+Model\Match:
+    type: entity
+    table: match
+    fields:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+        user_id:
+            type: integer
+        match_id:
+            type: integer
+        compatibility:
+            type: integer
+        last_update:
+            type: datetime
+            columnDefinition: TIMESTAMP DEFAULT CURRENT_TIMESTAMP

@@ -1,0 +1,23 @@
+#config/doctrine/schema/Model.Token.dcm.yml
+Model\Token:
+    type: entity
+    table: token
+    fields:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+        user_id:
+            type: integer
+        type:
+            type: integer
+        access_token:
+            type: string
+            lenght: 1000
+        refresh_token:
+            type: string
+            lenght: 1000
+        last_update:
+            type: datetime
+            columnDefinition: TIMESTAMP DEFAULT CURRENT_TIMESTAMP

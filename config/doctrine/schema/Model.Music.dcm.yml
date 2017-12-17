@@ -1,0 +1,29 @@
+#config/doctrine/schema/Model.Music.dcm.yml
+Model\Music:
+    type: entity
+    table: music
+    fields:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+        user_id:
+            type: integer
+        direct_link:
+            type: string
+            lenght: 1000
+        genre:
+            type: string
+            lenght: 500
+        artist:
+            type: string
+            lenght: 500
+        title:
+            type: string
+            lenght: 500
+        processed:
+            type: integer
+        last_update:
+            type: datetime
+            columnDefinition: TIMESTAMP DEFAULT CURRENT_TIMESTAMP

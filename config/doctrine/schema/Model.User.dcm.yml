@@ -1,0 +1,22 @@
+#config/doctrine/schema/Model.User.dcm.yml
+Model\User:
+    type: entity
+    table: user
+    fields:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+        first_name:
+            type: string
+            lenght: 500
+        last_name:
+            type: string
+            lenght: 500
+        email:
+            type: string
+            lenght: 500
+        last_update:
+            type: datetime
+            columnDefinition: TIMESTAMP DEFAULT CURRENT_TIMESTAMP
