@@ -26,6 +26,9 @@ $app->match('/user/create', function (Request $request) use ($app) {
 	else
 		return new Response($app->json("Email missing or null"), 406);
 
+	if ($request->get('last_update'))
+		$token->setLastUpdate($request->get('last_update'));
+
 	$em->persist($user);
 	$em->flush();
 
@@ -59,6 +62,11 @@ $app->match('user/update/{id}', function (Request $request, $id) use ($app) {
 
 	if ($request->get('email'))
 		$user->setEmail($request->get('email'));
+	
+	if ($request->get('last_update'))
+		$token->setLastUpdate($request->get('last_update'));
+	else
+		$token->setLastUpdate(new DateTime(date('Y-m-d G:i:s')));
 	
 	$em->persist($user);
 	$em->flush();

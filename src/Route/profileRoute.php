@@ -73,7 +73,7 @@ $app->match('profile/update/{id}', function (Request $request, $id) use ($app) {
 	if ($request->get('last_update'))
 		$profile->setLastUpdate($request->get('last_update'));
 	else
-		$token->setLastUpdate(new DateTime(date('Y-m-d G:i:s')));
+		$profile->setLastUpdate(new DateTime(date('Y-m-d G:i:s')));
 
 	$em->persist($profile);
 	$em->flush();

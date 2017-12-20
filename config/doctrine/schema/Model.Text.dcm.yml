@@ -27,6 +27,7 @@ Model\Text:
             lenght: 500
         processed:
             type: integer
+            nullable: true
         last_update:
             type: datetime
             columnDefinition: TIMESTAMP DEFAULT CURRENT_TIMESTAMP

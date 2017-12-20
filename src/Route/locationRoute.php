@@ -37,8 +37,6 @@ $app->match('/location/create', function (Request $request) use ($app) {
 
 	if ($request->get('last_update'))
 		$location->setLastUpdate($request->get('last_update'));
-	else
-		$token->setLastUpdate(new DateTime(date('Y-m-d G:i:s')));
 
 	$em->persist($location);
 	$em->flush();
@@ -82,6 +80,8 @@ $app->match('location/update/{id}', function (Request $request, $id) use ($app) 
 
 	if ($request->get('last_update'))
 		$location->setLastUpdate($request->get('last_update'));
+	else
+		$location->setLastUpdate(new DateTime(date('Y-m-d G:i:s')));
 
 	$em->persist($location);
 	$em->flush();

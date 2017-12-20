@@ -76,7 +76,7 @@ $app->match('video/update/{id}', function (Request $request, $id) use ($app) {
 	if ($request->get('last_update'))
 		$video->setLastUpdate($request->get('last_update'));
 	else
-		$token->setLastUpdate(new DateTime(date('Y-m-d G:i:s')));
+		$video->setLastUpdate(new DateTime(date('Y-m-d G:i:s')));
 
 	if ($request->get('processed'))
 		$video->setProcessed($request->get('processed'));
