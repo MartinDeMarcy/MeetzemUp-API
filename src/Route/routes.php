@@ -8,3 +8,4 @@ require 'locationRoute.php';
 require 'pictureRoute.php';
 require 'musicRoute.php';
 require 'videoRoute.php';
+require 'tokenRoute.php';

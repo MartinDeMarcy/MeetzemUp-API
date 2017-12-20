@@ -1,7 +1,7 @@
 <?php
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
-use App\Entity\Video;
+use Model\Video;
 use App\Repository\VideoRepository;
 
 
@@ -75,6 +75,8 @@ $app->match('video/update/{id}', function (Request $request, $id) use ($app) {
 
 	if ($request->get('last_update'))
 		$video->setLastUpdate($request->get('last_update'));
+	else
+		$token->setLastUpdate(new DateTime(date('Y-m-d G:i:s')));
 
 	if ($request->get('processed'))
 		$video->setProcessed($request->get('processed'));

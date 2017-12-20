@@ -1,7 +1,7 @@
 <?php
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
-use App\Entity\Match;
+use Model\Match;
 use App\Repository\MatchRepository;
 
 
@@ -64,6 +64,8 @@ $app->match('match/update/{id}', function (Request $request, $id) use ($app) {
 
 	if ($request->get('last_update'))
 		$match->setLastUpdate($request->get('last_update'));
+	else
+		$token->setLastUpdate(new DateTime(date('Y-m-d G:i:s')));
 
 	$em->persist($match);
 	$em->flush();

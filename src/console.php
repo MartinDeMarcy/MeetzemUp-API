@@ -8,9 +8,9 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 
-$cli = new Application('SilexSkeletonORM', '0.1');
+$cli = new Application('MeetZemUpAPI', '1.0');
 $cli ->getDefinition()->addOption(
-        new InputOption('--env', '-e', InputOption::VALUE_REQUIRED, 'The Environment name.', 'dev')
+        new InputOption('--env', '-e', InputOption::VALUE_REQUIRED, 'MeetZemUpAPI Env.', 'dev')
 );
 
 $cli->setHelperSet(new Symfony\Component\Console\Helper\HelperSet(array(

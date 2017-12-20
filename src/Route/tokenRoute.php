@@ -1,7 +1,7 @@
 <?php
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
-use App\Entity\Token;
+use Model\Token;
 use App\Repository\TokenRepository;
 
 
@@ -16,17 +16,17 @@ $app->match('/token/create', function (Request $request) use ($app) {
 		return $app->json("User id missing or null", 406);
 
 	if ($request->get('type'))
-		$token->setDirectLink($request->get('type'));
+		$token->setType($request->get('type'));
 	else
 		return $app->json("Type missing or null", 406);
 
 	if ($request->get('access_token'))
-		$token->setContext($request->get('access_token'));
+		$token->setAccessToken($request->get('access_token'));
 	else
 		return $app->json("Access token missing or null", 406);
 
 	if ($request->get('refresh_token'))
-		$token->setTitle($request->get('refresh_token'));
+		$token->setRefreshToken($request->get('refresh_token'));
 	else
 		return $app->json("Refresh token missing or null", 406);
 
@@ -62,16 +62,18 @@ $app->match('token/update/{id}', function (Request $request, $id) use ($app) {
 		$token->setUserId($request->get('user_id'));
 
 	if ($request->get('type'))
-		$token->setDirectLink($request->get('type'));
+		$token->setType($request->get('type'));
 
 	if ($request->get('access_token'))
-		$token->setContext($request->get('access_token'));
+		$token->setAccessToken($request->get('access_token'));
 
 	if ($request->get('refresh_token'))
-		$token->setTitle($request->get('refresh_token'));
+		$token->setRefreshToken($request->get('refresh_token'));
 
 	if ($request->get('last_update'))
 		$token->setLastUpdate($request->get('last_update'));
+	else
+		$token->setLastUpdate(new DateTime(date('Y-m-d G:i:s')));
 
 	$em->persist($token);
 	$em->flush();

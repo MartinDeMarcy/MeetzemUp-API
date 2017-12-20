@@ -19,7 +19,7 @@ use Saxulum\DoctrineOrmManagerRegistry\Provider\DoctrineOrmManagerRegistryProvid
 use Dflydev\Provider\DoctrineOrm\DoctrineOrmServiceProvider;
 
 /* Bootstrapping... */
-date_default_timezone_set('Europe/London');
+date_default_timezone_set('Europe/Paris');
 
 $app->register(new RoutingServiceProvider);
 $app->register(new ValidatorServiceProvider);
@@ -33,16 +33,16 @@ $app['form.extensions'] = $app->factory($app->extend('form.extensions', function
 }));
 
 /* translations and i18n */
-$app->register(new LocaleServiceProvider);
+/*$app->register(new LocaleServiceProvider);
 $app->register(new TranslationServiceProvider, array(
         'translator.messages' => array(),
-));
+));*/
 
 /* templating */
-$app->register(new TwigServiceProvider, array(
+/*$app->register(new TwigServiceProvider, array(
     'twig.path' => __DIR__.'/view',
     'twig.form.templates' => array('bootstrap_3_layout.html.twig')
-));
+));*/
 
 $app->register(new DoctrineOrmServiceProvider, array(
     'orm.proxies_dir' => sprintf('%s/doctrine/proxy', realpath(sprintf('%s/../cache', __DIR__))),
@@ -80,7 +80,7 @@ $app->register(new HttpCacheServiceProvider, array(
 /* logging */
 $app->register(new MonologServiceProvider, array(
     'monolog.logfile' => $app['config']['error.log.filename'],
-    'monolog.name' => 'my-silex-app'
+    'monolog.name' => 'meetzemup-api'
 ));
 
 require __DIR__.'/Route/routes.php';

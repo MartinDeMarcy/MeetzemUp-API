@@ -1,7 +1,7 @@
 <?php
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
-use App\Entity\Interest;
+use Model\Interest;
 use App\Repository\InterestRepository;
 
 
@@ -72,6 +72,8 @@ $app->match('interest/update/{id}', function (Request $request, $id) use ($app) 
 
 	if ($request->get('last_update'))
 		$interest->setLastUpdate($request->get('last_update'));
+	else
+		$token->setLastUpdate(new DateTime(date('Y-m-d G:i:s')));
 
 	$em->persist($interest);
 	$em->flush();

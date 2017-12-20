@@ -1,7 +1,7 @@
 <?php
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
-use App\Entity\Location;
+use Model\Location;
 use App\Repository\LocationRepository;
 
 
@@ -37,6 +37,8 @@ $app->match('/location/create', function (Request $request) use ($app) {
 
 	if ($request->get('last_update'))
 		$location->setLastUpdate($request->get('last_update'));
+	else
+		$token->setLastUpdate(new DateTime(date('Y-m-d G:i:s')));
 
 	$em->persist($location);
 	$em->flush();
