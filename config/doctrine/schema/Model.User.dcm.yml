@@ -17,6 +17,25 @@ Model\User:
         email:
             type: string
             lenght: 500
+        facebook_linked:
+            type: integer
+            options:
+                default: 0
+        twitter_linked:
+            type: integer
+            options:
+                default: 0
+        pinterest_linked:
+            type: integer
+            options:
+                default: 0
+        gmail_linked:
+            type: integer
+            options:
+                default: 0
+        instagram_linked:
+            type: integer
+            options:
+                default: 0
         last_update:
             type: datetime
-            columnDefinition: TIMESTAMP DEFAULT CURRENT_TIMESTAMP

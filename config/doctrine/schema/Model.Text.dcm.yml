@@ -16,18 +16,26 @@ Model\Text:
         context:
             type: string
             lenght: 500
+            nullable: true
         feeling:
             type: string
             lenght: 500
+            nullable: true
         representation:
             type: string
             lenght: 500
+            nullable: true
         classification:
             type: string
             lenght: 500
+            nullable: true
+        relative_id:
+            type: integer
+            nullable: true
         processed:
             type: integer
             nullable: true
         last_update:
             type: datetime
-            columnDefinition: TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            options:
+                default: CURRENT_TIMESTAMP

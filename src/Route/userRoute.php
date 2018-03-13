@@ -12,7 +12,6 @@ $app->match('/user/create', function (Request $request) use ($app) {
 
 	if ($request->get('first_name'))
 		$user->setFirstName($request->get('first_name'));
-
 	else
 		return new Response($app->json("Firt name missing or null"), 406);
 
@@ -26,9 +25,22 @@ $app->match('/user/create', function (Request $request) use ($app) {
 	else
 		return new Response($app->json("Email missing or null"), 406);
 
-	if ($request->get('last_update'))
-		$token->setLastUpdate($request->get('last_update'));
+	if ($request->get('facebook_linked'))
+		$user->setFacebookLinked($request->get('facebook_linked'));
 
+	if ($request->get('twitter_linked'))
+		$user->setTwitterLinked($request->get('twitter_linked'));
+
+	if ($request->get('pinterest_linked'))
+		$user->setPinterestLinked($request->get('pinterest_linked'));
+
+	if ($request->get('gmail_linked'))
+		$user->setGmailLinked($request->get('gmail_linked'));
+
+	if ($request->get('instagram_linked'))
+		$user->setInstagramLinked($request->get('instagram_linked'));
+
+	$user->setLastUpdate(new DateTime(date('Y-m-d G:i:s')));
 	$em->persist($user);
 	$em->flush();
 
@@ -62,12 +74,23 @@ $app->match('user/update/{id}', function (Request $request, $id) use ($app) {
 
 	if ($request->get('email'))
 		$user->setEmail($request->get('email'));
+
+	if ($request->get('facebook_linked'))
+		$user->setFacebookLinked($request->get('facebook_linked'));
+
+	if ($request->get('twitter_linked'))
+		$user->setTwitterLinked($request->get('twitter_linked'));
+
+	if ($request->get('pinterest_linked'))
+		$user->setPinterestLinked($request->get('pinterest_linked'));
+
+	if ($request->get('gmail_linked'))
+		$user->setGmailLinked($request->get('gmail_linked'));
+
+	if ($request->get('instagram_linked'))
+		$user->setInstagramLinked($request->get('instagram_linked'));
 	
-	if ($request->get('last_update'))
-		$token->setLastUpdate($request->get('last_update'));
-	else
-		$token->setLastUpdate(new DateTime(date('Y-m-d G:i:s')));
-	
+	$user->setLastUpdate(new DateTime(date('Y-m-d G:i:s')));
 	$em->persist($user);
 	$em->flush();
 

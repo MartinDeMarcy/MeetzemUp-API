@@ -35,9 +35,7 @@ $app->match('/location/create', function (Request $request) use ($app) {
 	else
 		return $app->json("Country missing or null", 406);
 
-	if ($request->get('last_update'))
-		$location->setLastUpdate($request->get('last_update'));
-
+	$location->setLastUpdate(new DateTime(date('Y-m-d G:i:s')));
 	$em->persist($location);
 	$em->flush();
 
@@ -78,11 +76,8 @@ $app->match('location/update/{id}', function (Request $request, $id) use ($app) 
 	if ($request->get('country'))
 		$location->setCountry($request->get('country'));
 
-	if ($request->get('last_update'))
-		$location->setLastUpdate($request->get('last_update'));
-	else
-		$location->setLastUpdate(new DateTime(date('Y-m-d G:i:s')));
-
+	
+	$location->setLastUpdate(new DateTime(date('Y-m-d G:i:s')));
 	$em->persist($location);
 	$em->flush();
 

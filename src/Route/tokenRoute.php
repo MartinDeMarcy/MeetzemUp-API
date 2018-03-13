@@ -30,9 +30,7 @@ $app->match('/token/create', function (Request $request) use ($app) {
 	else
 		return $app->json("Refresh token missing or null", 406);
 
-	if ($request->get('last_update'))
-		$token->setLastUpdate($request->get('last_update'));
-
+	$token->setLastUpdate(new DateTime(date('Y-m-d G:i:s')));
 	$em->persist($token);
 	$em->flush();
 
@@ -70,11 +68,7 @@ $app->match('token/update/{id}', function (Request $request, $id) use ($app) {
 	if ($request->get('refresh_token'))
 		$token->setRefreshToken($request->get('refresh_token'));
 
-	if ($request->get('last_update'))
-		$token->setLastUpdate($request->get('last_update'));
-	else
-		$token->setLastUpdate(new DateTime(date('Y-m-d G:i:s')));
-
+	$token->setLastUpdate(new DateTime(date('Y-m-d G:i:s')));
 	$em->persist($token);
 	$em->flush();
 

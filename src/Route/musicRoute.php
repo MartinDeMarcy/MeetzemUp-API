@@ -35,12 +35,10 @@ $app->match('/music/create', function (Request $request) use ($app) {
 	else
 		return $app->json("Title missing or null", 406);
 
-	if ($request->get('last_update'))
-		$music->setLastUpdate($request->get('last_update'));
-
 	if ($request->get('processed'))
 		$music->setProcessed($request->get('processed'));
 
+	$music->setLastUpdate(new DateTime(date('Y-m-d G:i:s')));
 	$em->persist($music);
 	$em->flush();
 
@@ -81,14 +79,10 @@ $app->match('music/update/{id}', function (Request $request, $id) use ($app) {
 	if ($request->get('title'))
 		$music->setTitle($request->get('title'));
 
-	if ($request->get('last_update'))
-		$music->setLastUpdate($request->get('last_update'));
-	else
-		$music->setLastUpdate(new DateTime(date('Y-m-d G:i:s')));
-
 	if ($request->get('processed'))
 		$music->setProcessed($request->get('processed'));
 
+	$music->setLastUpdate(new DateTime(date('Y-m-d G:i:s')));
 	$em->persist($music);
 	$em->flush();
 

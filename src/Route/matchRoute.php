@@ -25,9 +25,7 @@ $app->match('/match/create', function (Request $request) use ($app) {
 	else
 		return $app->json("Compatibility missing or null", 406);
 
-	if ($request->get('last_update'))
-		$match->setLastUpdate($request->get('last_update'));
-
+	$match->setLastUpdate(new DateTime(date('Y-m-d G:i:s')));
 	$em->persist($match);
 	$em->flush();
 
@@ -62,11 +60,7 @@ $app->match('match/update/{id}', function (Request $request, $id) use ($app) {
 	if ($request->get('compatibility'))
 		$match->setCompatibility($request->get('compatibility'));
 
-	if ($request->get('last_update'))
-		$match->setLastUpdate($request->get('last_update'));
-	else
-		$match->setLastUpdate(new DateTime(date('Y-m-d G:i:s')));
-
+	$match->setLastUpdate(new DateTime(date('Y-m-d G:i:s')));
 	$em->persist($match);
 	$em->flush();
 

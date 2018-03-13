@@ -20,4 +20,5 @@ Model\Token:
             lenght: 1000
         last_update:
             type: datetime
-            columnDefinition: TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            options:
+                default: CURRENT_TIMESTAMP

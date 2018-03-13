@@ -35,12 +35,10 @@ $app->match('/picture/create', function (Request $request) use ($app) {
 	else
 		return $app->json("Context missing or null", 406);
 
-	if ($request->get('last_update'))
-		$picture->setLastUpdate($request->get('last_update'));
-
 	if ($request->get('processed'))
 		$picture->setProcessed($request->get('processed'));
 
+	$picture->setLastUpdate(new DateTime(date('Y-m-d G:i:s')));
 	$em->persist($picture);
 	$em->flush();
 
@@ -81,14 +79,10 @@ $app->match('picture/update/{id}', function (Request $request, $id) use ($app) {
 	if ($request->get('context'))
 		$picture->setContext($request->get('context'));
 
-	if ($request->get('last_update'))
-		$picture->setLastUpdate($request->get('last_update'));
-	else
-		$picture->setLastUpdate(new DateTime(date('Y-m-d G:i:s')));
-
 	if ($request->get('processed'))
 		$picture->setProcessed($request->get('processed'));
 
+	$picture->setLastUpdate(new DateTime(date('Y-m-d G:i:s')));
 	$em->persist($picture);
 	$em->flush();
 

@@ -40,16 +40,8 @@ class Location
     /**
      * @var \DateTime
      */
-    private $last_update;
+    private $last_update = 'CURRENT_TIMESTAMP';
 
-    public function toJson() {
-        $json = new \stdClass();
-
-        foreach ($this as $key => $value)
-            $json->$key = $value;
-
-        return json_encode($json);
-    }
 
     /**
      * Get id
@@ -205,3 +197,4 @@ class Location
         return $this->last_update;
     }
 }
+

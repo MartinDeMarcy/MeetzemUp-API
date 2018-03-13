@@ -28,18 +28,35 @@ class User
     private $email;
 
     /**
+     * @var integer
+     */
+    private $facebook_linked = 0;
+
+    /**
+     * @var integer
+     */
+    private $twitter_linked = 0;
+
+    /**
+     * @var integer
+     */
+    private $pinterest_linked = 0;
+
+    /**
+     * @var integer
+     */
+    private $gmail_linked = 0;
+
+    /**
+     * @var integer
+     */
+    private $instagram_linked = 0;
+
+    /**
      * @var \DateTime
      */
     private $last_update;
 
-    public function toJson() {
-        $json = new \stdClass();
-
-        foreach ($this as $key => $value)
-            $json->$key = $value;
-
-        return json_encode($json);
-    }
 
     /**
      * Get id
@@ -124,6 +141,126 @@ class User
     }
 
     /**
+     * Set facebookLinked
+     *
+     * @param integer $facebookLinked
+     *
+     * @return User
+     */
+    public function setFacebookLinked($facebookLinked)
+    {
+        $this->facebook_linked = $facebookLinked;
+    
+        return $this;
+    }
+
+    /**
+     * Get facebookLinked
+     *
+     * @return integer
+     */
+    public function getFacebookLinked()
+    {
+        return $this->facebook_linked;
+    }
+
+    /**
+     * Set twitterLinked
+     *
+     * @param integer $twitterLinked
+     *
+     * @return User
+     */
+    public function setTwitterLinked($twitterLinked)
+    {
+        $this->twitter_linked = $twitterLinked;
+    
+        return $this;
+    }
+
+    /**
+     * Get twitterLinked
+     *
+     * @return integer
+     */
+    public function getTwitterLinked()
+    {
+        return $this->twitter_linked;
+    }
+
+    /**
+     * Set pinterestLinked
+     *
+     * @param integer $pinterestLinked
+     *
+     * @return User
+     */
+    public function setPinterestLinked($pinterestLinked)
+    {
+        $this->pinterest_linked = $pinterestLinked;
+    
+        return $this;
+    }
+
+    /**
+     * Get pinterestLinked
+     *
+     * @return integer
+     */
+    public function getPinterestLinked()
+    {
+        return $this->pinterest_linked;
+    }
+
+    /**
+     * Set gmailLinked
+     *
+     * @param integer $gmailLinked
+     *
+     * @return User
+     */
+    public function setGmailLinked($gmailLinked)
+    {
+        $this->gmail_linked = $gmailLinked;
+    
+        return $this;
+    }
+
+    /**
+     * Get gmailLinked
+     *
+     * @return integer
+     */
+    public function getGmailLinked()
+    {
+        return $this->gmail_linked;
+    }
+
+    /**
+     * Set instagramLinked
+     *
+     * @param integer $instagramLinked
+     *
+     * @return User
+     */
+    public function setInstagramLinked($instagramLinked)
+    {
+        $this->instagram_linked = $instagramLinked;
+    
+        return $this;
+    }
+
+    /**
+     * Get instagramLinked
+     *
+     * @return integer
+     */
+    public function getInstagramLinked()
+    {
+        return $this->instagram_linked;
+    }
+
+    /**
      * Set lastUpdate
      *
      * @param \DateTime $lastUpdate
@@ -147,3 +284,4 @@ class User
         return $this->last_update;
     }
 }
+

@@ -24,4 +24,5 @@ Model\Video:
             nullable: true
         last_update:
             type: datetime
-            columnDefinition: TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            options:
+                default: CURRENT_TIMESTAMP

@@ -22,31 +22,23 @@ $app->match('/text/create', function (Request $request) use ($app) {
 
 	if ($request->get('context'))
 		$text->setContext($request->get('context'));
-	else
-		return $app->json("Context missing or null", 406);
 
 	if ($request->get('feeling'))
 		$text->setFeeling($request->get('feeling'));
-	else
-		return $app->json("Feeling missing or null", 406);
 
 	if ($request->get('representation'))
 		$text->setRepresentation($request->get('representation'));
-	else
-		return $app->json("Representation missing or null", 406);
 
 	if ($request->get('classification'))
 		$text->setClassification($request->get('classification'));
-	else
-		return $app->json("Classification missing or null", 406);
 
-	if ($request->get('last_update'))
-		$text->setLastUpdate($request->get('last_update'));
+	if ($request->get('relative_id'))
+		$text->setClassification($request->get('relative_id'));
 
 	if ($request->get('processed'))
 		$text->setProcessed($request->get('processed'));
 
-
+	$text->setLastUpdate(new DateTime(date('Y-m-d G:i:s')));
 	$em->persist($text);
 	$em->flush();
 
@@ -90,14 +82,13 @@ $app->match('text/update/{id}', function (Request $request, $id) use ($app) {
 	if ($request->get('classification'))
 		$text->setClassification($request->get('classification'));
 
-	if ($request->get('last_update'))
-		$text->setLastUpdate($request->get('last_update'));
-	else
-		$text->setLastUpdate(new DateTime(date('Y-m-d G:i:s')));
+	if ($request->get('relative_id'))
+		$text->setClassification($request->get('relative_id'));
 
 	if ($request->get('processed'))
 		$text->setProcessed($request->get('processed'));
 
+	$text->setLastUpdate(new DateTime(date('Y-m-d G:i:s')));
 	$em->persist($text);
 	$em->flush();
 

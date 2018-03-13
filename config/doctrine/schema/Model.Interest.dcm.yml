@@ -20,4 +20,5 @@ Model\Interest:
             type: integer
         last_update:
             type: datetime
-            columnDefinition: TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            options:
+                default: CURRENT_TIMESTAMP

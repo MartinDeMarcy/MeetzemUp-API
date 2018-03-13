@@ -30,9 +30,7 @@ $app->match('/interest/create', function (Request $request) use ($app) {
 	else
 		return $app->json("Occurence missing or null", 406);
 
-	if ($request->get('last_update'))
-		$interest->setLastUpdate($request->get('last_update'));
-
+	$interest->setLastUpdate(new DateTime(date('Y-m-d G:i:s')));
 	$em->persist($interest);
 	$em->flush();
 
@@ -70,11 +68,8 @@ $app->match('interest/update/{id}', function (Request $request, $id) use ($app) 
 	if ($request->get('occurence'))
 		$interest->setOccurence($request->get('occurence'));
 
-	if ($request->get('last_update'))
-		$interest->setLastUpdate($request->get('last_update'));
-	else
-		$interest->setLastUpdate(new DateTime(date('Y-m-d G:i:s')));
-
+	
+	$interest->setLastUpdate(new DateTime(date('Y-m-d G:i:s')));
 	$em->persist($interest);
 	$em->flush();
 

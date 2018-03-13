@@ -22,4 +22,5 @@ Model\Location:
             lenght: 500
         last_update:
             type: datetime
-            columnDefinition: TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            options:
+                default: CURRENT_TIMESTAMP

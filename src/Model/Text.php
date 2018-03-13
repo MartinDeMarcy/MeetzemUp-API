@@ -45,21 +45,18 @@ class Text
     /**
      * @var integer
      */
+    private $relative_id;
+
+    /**
+     * @var integer
+     */
     private $processed;
 
     /**
      * @var \DateTime
      */
-    private $last_update;
+    private $last_update = 'CURRENT_TIMESTAMP';
 
-    public function toJson() {
-        $json = new \stdClass();
-
-        foreach ($this as $key => $value)
-            $json->$key = $value;
-
-        return json_encode($json);
-    }
 
     /**
      * Get id
@@ -216,6 +213,30 @@ class Text
     }
 
     /**
+     * Set relativeId
+     *
+     * @param integer $relativeId
+     *
+     * @return Text
+     */
+    public function setRelativeId($relativeId)
+    {
+        $this->relative_id = $relativeId;
+    
+        return $this;
+    }
+
+    /**
+     * Get relativeId
+     *
+     * @return integer
+     */
+    public function getRelativeId()
+    {
+        return $this->relative_id;
+    }
+
+    /**
      * Set processed
      *
      * @param integer $processed
@@ -263,3 +284,4 @@ class Text
         return $this->last_update;
     }
 }
+

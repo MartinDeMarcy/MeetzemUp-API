@@ -30,9 +30,7 @@ $app->match('/profile/create', function (Request $request) use ($app) {
 	else
 		return $app->json("Class missing or null", 406);
 
-	if ($request->get('last_update'))
-		$profile->setLastUpdate($request->get('last_update'));
-
+	$profile->setLastUpdate(new DateTime(date('Y-m-d G:i:s')));
 	$em->persist($profile);
 	$em->flush();
 
@@ -69,12 +67,8 @@ $app->match('profile/update/{id}', function (Request $request, $id) use ($app) {
 
 	if ($request->get('class'))
 		$profile->setClass($request->get('class'));
-
-	if ($request->get('last_update'))
-		$profile->setLastUpdate($request->get('last_update'));
-	else
-		$profile->setLastUpdate(new DateTime(date('Y-m-d G:i:s')));
-
+		
+	$profile->setLastUpdate(new DateTime(date('Y-m-d G:i:s')));
 	$em->persist($profile);
 	$em->flush();
 
