@@ -20,5 +20,3 @@ Model\Token:
             lenght: 1000
         last_update:
             type: datetime
-            options:
-                default: CURRENT_TIMESTAMP

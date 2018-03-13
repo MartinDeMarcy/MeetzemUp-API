@@ -33,7 +33,7 @@ $app->match('/text/create', function (Request $request) use ($app) {
 		$text->setClassification($request->get('classification'));
 
 	if ($request->get('relative_id'))
-		$text->setClassification($request->get('relative_id'));
+		$text->setRelativeId($request->get('relative_id'));
 
 	if ($request->get('processed'))
 		$text->setProcessed($request->get('processed'));
@@ -83,7 +83,7 @@ $app->match('text/update/{id}', function (Request $request, $id) use ($app) {
 		$text->setClassification($request->get('classification'));
 
 	if ($request->get('relative_id'))
-		$text->setClassification($request->get('relative_id'));
+		$text->setRelativeId($request->get('relative_id'));
 
 	if ($request->get('processed'))
 		$text->setProcessed($request->get('processed'));

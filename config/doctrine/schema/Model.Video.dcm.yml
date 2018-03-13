@@ -22,7 +22,7 @@ Model\Video:
         processed:
             type: integer
             nullable: true
+            options:
+                default: 0
         last_update:
             type: datetime
-            options:
-                default: CURRENT_TIMESTAMP

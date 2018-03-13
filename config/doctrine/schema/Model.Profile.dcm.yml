@@ -21,5 +21,3 @@ Model\Profile:
             lenght: 500
         last_update:
             type: datetime
-            options:
-                default: CURRENT_TIMESTAMP
