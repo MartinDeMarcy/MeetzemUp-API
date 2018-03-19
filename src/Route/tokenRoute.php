@@ -20,6 +20,9 @@ $app->match('/token/create', function (Request $request) use ($app) {
 	else
 		return $app->json("Type missing or null", 406);
 
+	if ($request->get('network_id'))
+		$token->setNetworkId($request->get('network_id'));
+
 	if ($request->get('access_token'))
 		$token->setAccessToken($request->get('access_token'));
 	else
@@ -61,6 +64,9 @@ $app->match('token/update/{id}', function (Request $request, $id) use ($app) {
 
 	if ($request->get('type'))
 		$token->setType($request->get('type'));
+
+	if ($request->get('network_id'))
+		$token->setNetworkId($request->get('network_id'));
 
 	if ($request->get('access_token'))
 		$token->setAccessToken($request->get('access_token'));

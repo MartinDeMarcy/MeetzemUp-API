@@ -12,6 +12,9 @@ Model\Token:
             type: integer
         type:
             type: integer
+        network_id:
+            type: integer
+            nullable: true
         access_token:
             type: string
             lenght: 1000

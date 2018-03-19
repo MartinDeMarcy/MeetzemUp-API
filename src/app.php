@@ -18,7 +18,7 @@ use Silex\Provider\MonologServiceProvider;
 use Saxulum\DoctrineOrmManagerRegistry\Provider\DoctrineOrmManagerRegistryProvider;
 use Dflydev\Provider\DoctrineOrm\DoctrineOrmServiceProvider;
 
-use Repository\AccessTokenRepository;
+//use Repository\AccessTokenRepository;
 
 /* Bootstrapping... */
 date_default_timezone_set('Europe/Paris');
@@ -30,7 +30,7 @@ $app->register(new FormServiceProvider);
 $app->register(new DoctrineOrmManagerRegistryProvider);
 
 
-$app['accessTokenRepo'] = new AccessTokenRepository();
+//$app['accessTokenRepo'] = new AccessTokenRepository();
 
 $app['form.extensions'] = $app->factory($app->extend('form.extensions', function ($extensions) use ($app) {
     $extensions[] = new DoctrineOrmExtension($app['doctrine']);

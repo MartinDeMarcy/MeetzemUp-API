@@ -23,6 +23,11 @@ class Token
     private $type;
 
     /**
+     * @var integer
+     */
+    private $network_id;
+
+    /**
      * @var string
      */
     private $access_token;
@@ -180,5 +185,29 @@ class Token
     	   $json->$key = $value;
 
     	return json_encode($json);
+    }
+
+    /**
+     * Set networkId
+     *
+     * @param integer $networkId
+     *
+     * @return Token
+     */
+    public function setNetworkId($networkId)
+    {
+        $this->network_id = $networkId;
+    
+        return $this;
+    }
+
+    /**
+     * Get networkId
+     *
+     * @return integer
+     */
+    public function getNetworkId()
+    {
+        return $this->network_id;
     }
 }
