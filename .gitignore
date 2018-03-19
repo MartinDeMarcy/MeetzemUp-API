@@ -5,3 +5,8 @@
 vendor/
 config/dev.php
 config/prod.php
+MeetZemUp.sql
+encription.key
+npm-debug.log
+private.key
+public.key
