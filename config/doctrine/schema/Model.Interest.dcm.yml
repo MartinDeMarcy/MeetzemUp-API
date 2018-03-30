@@ -2,14 +2,13 @@
 Model\Interest:
     type: entity
     table: interest
+    repositoryClass: Repository\InterestRepository
     fields:
         id:
             type: integer
             id: true
             generator:
                 strategy: AUTO
-        user_id:
-            type: integer
         name:
             type: string
             length: 500
@@ -20,3 +19,9 @@ Model\Interest:
             type: integer
         last_update:
             type: datetime
+    manyToOne:
+        user:
+            targetEntity: User
+            joinColumn:
+                name: user
+                referencedColumnName: id

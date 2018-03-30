@@ -10,8 +10,13 @@ $app->match('/match/create', function (Request $request) use ($app) {
 	$em = $app['orm.em'];
 	$match = new Match();
 
-	if ($request->get('user_id'))
-		$match->setUserId($request->get('user_id'));
+	if ($request->get('user_id')) {
+		$user = $em->getRepository("Model\User")->find($request->get('user_id'));
+		if ($user)
+			$match->setUser($user);
+		else
+			return $app->json("No user with id " . $request->get('user_id') . " was found.", 404);
+	}
 	else
 		return $app->json("User id missing or null", 406);
 
@@ -51,8 +56,13 @@ $app->match('match/update/{id}', function (Request $request, $id) use ($app) {
         return $app->json('The match with id: ' . $id . ' was not found.', 404);
     }
 
-	if ($request->get('user_id'))
-		$match->setUserId($request->get('user_id'));
+	if ($request->get('user_id')) {
+		$user = $em->getRepository("Model\User")->find($request->get('user_id'));
+		if ($user)
+			$match->setUser($user);
+		else
+			return $app->json("No user with id " . $request->get('user_id') . " was found.", 404);
+	}
 
 	if ($request->get('match_id'))
 		$match->setMatchId($request->get('match_id'));

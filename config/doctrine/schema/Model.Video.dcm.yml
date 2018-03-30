@@ -2,14 +2,13 @@
 Model\Video:
     type: entity
     table: Video
+    repositoryClass: Repository\VideoRepository
     fields:
         id:
             type: integer
             id: true
             generator:
                 strategy: AUTO
-        user_id:
-            type: integer
         direct_link:
             type: string
             lenght: 1000
@@ -26,3 +25,9 @@ Model\Video:
                 default: 0
         last_update:
             type: datetime
+    manyToOne:
+        user:
+            targetEntity: User
+            joinColumn:
+                name: user
+                referencedColumnName: id

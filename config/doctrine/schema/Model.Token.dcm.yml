@@ -2,14 +2,13 @@
 Model\Token:
     type: entity
     table: token
+    repositoryClass: Repository\TokenRepository
     fields:
         id:
             type: integer
             id: true
             generator:
                 strategy: AUTO
-        user_id:
-            type: integer
         type:
             type: integer
         network_id:
@@ -23,3 +22,9 @@ Model\Token:
             lenght: 1000
         last_update:
             type: datetime
+    manyToOne:
+        user:
+            targetEntity: User
+            joinColumn:
+                name: user
+                referencedColumnName: id

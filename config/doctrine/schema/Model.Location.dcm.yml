@@ -2,14 +2,13 @@
 Model\Location:
     type: entity
     table: location
+    repositoryClass: Repository\LocationRepository
     fields:
         id:
             type: integer
             id: true
             generator:
                 strategy: AUTO
-        user_id:
-            type: integer
         latitude:
             type: float
         longitude:
@@ -22,3 +21,9 @@ Model\Location:
             lenght: 500
         last_update:
             type: datetime
+    manyToOne:
+        user:
+            targetEntity: User
+            joinColumn:
+                name: user
+                referencedColumnName: id

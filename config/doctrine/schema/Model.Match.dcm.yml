@@ -2,17 +2,27 @@
 Model\Match:
     type: entity
     table: mate
+    repositoryClass: Repository\MateRepository
     fields:
         id:
             type: integer
             id: true
             generator:
                 strategy: AUTO
-        user_id:
-            type: integer
         match_id:
             type: integer
         compatibility:
             type: integer
         last_update:
             type: datetime
+    manyToOne:
+        user:
+            targetEntity: User
+            joinColumn:
+                name: user
+                referencedColumnName: id
+        user:
+            targetEntity: User
+            joinColumn:
+                name: user
+                referencedColumnName: id

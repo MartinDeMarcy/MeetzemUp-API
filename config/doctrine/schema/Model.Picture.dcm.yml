@@ -2,14 +2,13 @@
 Model\Picture:
     type: entity
     table: picture
+    repositoryClass: Repository\PictureRepository
     fields:
         id:
             type: integer
             id: true
             generator:
                 strategy: AUTO
-        user_id:
-            type: integer
         direct_link:
             type: string
             lenght: 1000
@@ -29,3 +28,9 @@ Model\Picture:
                 default: 0
         last_update:
             type: datetime
+    manyToOne:
+        user:
+            targetEntity: User
+            joinColumn:
+                name: user
+                referencedColumnName: id

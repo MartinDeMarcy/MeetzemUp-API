@@ -2,14 +2,13 @@
 Model\Profile:
     type: entity
     table: profile
+    repositoryClass: Repository\ProfileRepository
     fields:
         id:
             type: integer
             id: true
             generator:
                 strategy: AUTO
-        user_id:
-            type: integer
         leader:
             type: string
             lenght: 500
@@ -21,3 +20,9 @@ Model\Profile:
             lenght: 500
         last_update:
             type: datetime
+    manyToOne:
+        user:
+            targetEntity: User
+            joinColumn:
+                name: user
+                referencedColumnName: id

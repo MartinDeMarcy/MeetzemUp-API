@@ -10,8 +10,13 @@ $app->match('/video/create', function (Request $request) use ($app) {
 	$em = $app['orm.em'];
 	$video = new Video();
 
-	if ($request->get('user_id'))
-		$video->setUserId($request->get('user_id'));
+	if ($request->get('user_id')) {
+		$user = $em->getRepository("Model\User")->find($request->get('user_id'));
+		if ($user)
+			$video->setUser($user);
+		else
+			return $app->json("No user with id " . $request->get('user_id') . " was found.", 404);
+	}
 	else
 		return $app->json("User id missing or null", 406);
 
@@ -59,8 +64,13 @@ $app->match('video/update/{id}', function (Request $request, $id) use ($app) {
         return $app->json('The video with id: ' . $id . ' was not found.', 404);
     }
 
-	if ($request->get('user_id'))
-		$video->setUserId($request->get('user_id'));
+	if ($request->get('user_id')) {
+		$user = $em->getRepository("Model\User")->find($request->get('user_id'));
+		if ($user)
+			$video->setUser($user);
+		else
+			return $app->json("No user with id " . $request->get('user_id') . " was found.", 404);
+	}
 
 	if ($request->get('direct_link'))
 		$video->setDirectLink($request->get('direct_link'));

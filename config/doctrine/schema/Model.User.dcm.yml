@@ -2,6 +2,7 @@
 Model\User:
     type: entity
     table: user
+    repositoryClass: Repository\UserRepository
     fields:
         id:
             type: integer

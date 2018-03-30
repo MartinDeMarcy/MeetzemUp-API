@@ -10,8 +10,13 @@ $app->match('/location/create', function (Request $request) use ($app) {
 	$em = $app['orm.em'];
 	$location = new Location();
 
-	if ($request->get('user_id'))
-		$location->setUserId($request->get('user_id'));
+	if ($request->get('user_id')) {
+		$user = $em->getRepository("Model\User")->find($request->get('user_id'));
+		if ($user)
+			$location->setUser($user);
+		else
+			return $app->json("No user with id " . $request->get('user_id') . " was found.", 404);
+	}
 	else
 		return $app->json("User id missing or null", 406);
 
@@ -61,8 +66,13 @@ $app->match('location/update/{id}', function (Request $request, $id) use ($app) 
         return $app->json('The location with id: ' . $id . ' was not found.', 404);
     }
 
-	if ($request->get('user_id'))
-		$location->setUserId($request->get('user_id'));
+	if ($request->get('user_id')) {
+		$user = $em->getRepository("Model\User")->find($request->get('user_id'));
+		if ($user)
+			$location->setUser($user);
+		else
+			return $app->json("No user with id " . $request->get('user_id') . " was found.", 404);
+	}
 
 	if ($request->get('latitude'))
 		$location->setLatitude($request->get('latitude'));

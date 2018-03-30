@@ -13,9 +13,9 @@ class Location
     private $id;
 
     /**
-     * @var integer
+     * @var \Model\User
      */
-    private $user_id;
+    private $user;
 
     /**
      * @var float
@@ -54,27 +54,27 @@ class Location
     }
 
     /**
-     * Set userId
+     * Set user
      *
-     * @param integer $userId
+     * @param \Model\User $user
      *
      * @return Location
      */
-    public function setUserId($userId)
+    public function setUser(\Model\User $user = null)
     {
-        $this->user_id = $userId;
+        $this->user = $user;
     
         return $this;
     }
 
     /**
-     * Get userId
+     * Get user
      *
-     * @return integer
+     * @return \Model\User
      */
-    public function getUserId()
+    public function getUser()
     {
-        return $this->user_id;
+        return $this->user;
     }
 
     /**
@@ -203,11 +203,14 @@ class Location
     * @return \JSON
     */
     public function toJson() {
-    	$json = new \stdClass();
+        $json = new \stdClass();
 
-    	foreach ($this as $key => $value)
-    	   $json->$key = $value;
-
-    	return json_encode($json);
+        foreach ($this as $key => $value) {
+            if ($value instanceof User)
+                $json->$key = $value->getJson();
+            else
+               $json->$key = $value;
+        }
+        return json_encode($json);
     }
 }

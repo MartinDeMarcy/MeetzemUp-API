@@ -2,14 +2,13 @@
 Model\Text:
     type: entity
     table: text
+    repositoryClass: Repository\TextRepository
     fields:
         id:
             type: integer
             id: true
             generator:
                 strategy: AUTO
-        user_id:
-            type: integer
         content:
             type: string
             lenght: 500
@@ -39,3 +38,9 @@ Model\Text:
                 default: 0
         last_update:
             type: datetime
+    manyToOne:
+        user:
+            targetEntity: User
+            joinColumn:
+                name: user
+                referencedColumnName: id

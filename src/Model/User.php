@@ -297,4 +297,20 @@ class User
 
     	return json_encode($json);
     }
+
+    /**
+    * Return JSON Object of the entity
+    *
+    * @return \JSON
+    */
+    public function getJson() {
+        $json = new \stdClass();
+
+        foreach ($this as $key => $value) {
+            if (strcmp($key, "__initializer__") != 0 && strcmp($key, "__cloner__") && strcmp($key, "__isInitialized__"))
+                $json->$key = $value;
+        }
+
+        return $json;
+    }
 }
