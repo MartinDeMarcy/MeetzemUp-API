@@ -1,5 +1,6 @@
 <?php
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Model\Music;
 use App\Repository\MusicRepository;
@@ -111,4 +112,22 @@ $app->match('music/delete/{id}', function ($id) use ($app) {
 	$em->flush();
 
 	return $app->json('Music correctly removed', 200);
+});
+
+$app->match('music/getbyuser/{id}', function ($id) use ($app) {
+	$em = $app['orm.em'];
+	$json = new \stdClass();
+	$user = $em->getRepository("Model\User")->find($id);
+
+	if (!$user) {
+        return new Response($app->json('The user with id: ' . $id . ' was not found.'), 404);
+    }
+
+	$musics = $em->getRepository("Model\Music")->findBy(array('user' => $user->getId()));
+
+	foreach ($musics as $key => $music) {
+		$json->$key = json_decode($music->toJson(1), true);
+	}
+	
+	return new JsonResponse($json, 200);
 });

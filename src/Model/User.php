@@ -289,13 +289,18 @@ class User
     *
     * @return \JSON
     */
-    public function toJson() {
-    	$json = new \stdClass();
+    public function toJson($option) {
+        $json = new \stdClass();
 
-    	foreach ($this as $key => $value)
-    	   $json->$key = $value;
-
-    	return json_encode($json);
+        foreach ($this as $key => $value) {
+            if ($value instanceof User && is_null($option))
+                $json->$key = $value->getJson();
+            else if ($value instanceof User && $option == 1)
+                $json->$key = $value->getId();
+            else
+               $json->$key = $value;
+        }
+        return json_encode($json);
     }
 
     /**

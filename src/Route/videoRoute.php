@@ -1,5 +1,6 @@
 <?php
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Model\Video;
 use App\Repository\VideoRepository;
@@ -103,4 +104,22 @@ $app->match('video/delete/{id}', function ($id) use ($app) {
 	$em->flush();
 
 	return $app->json('Video correctly removed', 200);
+});
+
+$app->match('video/getbyuser/{id}', function ($id) use ($app) {
+	$em = $app['orm.em'];
+	$json = new \stdClass();
+	$user = $em->getRepository("Model\User")->find($id);
+
+	if (!$user) {
+        return new Response($app->json('The user with id: ' . $id . ' was not found.'), 404);
+    }
+
+	$videos = $em->getRepository("Model\Video")->findBy(array('user' => $user->getId()));
+
+	foreach ($videos as $key => $video) {
+		$json->$key = json_decode($video->toJson(1), true);
+	}
+	
+	return new JsonResponse($json, 200);
 });

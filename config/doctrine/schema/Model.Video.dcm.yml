@@ -1,7 +1,7 @@
 #config/doctrine/schema/Model.Video.dcm.yml
 Model\Video:
     type: entity
-    table: Video
+    table: video
     repositoryClass: Repository\VideoRepository
     fields:
         id:

@@ -1,5 +1,6 @@
 <?php
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Model\Interest;
 use App\Repository\InterestRepository;
@@ -98,4 +99,22 @@ $app->match('interest/delete/{id}', function ($id) use ($app) {
 	$em->flush();
 
 	return $app->json('Interest correctly removed', 200);
+});
+
+$app->match('interest/getbyuser/{id}', function ($id) use ($app) {
+	$em = $app['orm.em'];
+	$json = new \stdClass();
+	$user = $em->getRepository("Model\User")->find($id);
+
+	if (!$user) {
+        return new Response($app->json('The user with id: ' . $id . ' was not found.'), 404);
+    }
+
+	$interests = $em->getRepository("Model\Interest")->findBy(array('user' => $user->getId()));
+
+	foreach ($interests as $key => $interest) {
+		$json->$key = json_decode($interest->toJson(1), true);
+	}
+	
+	return new JsonResponse($json, 200);
 });

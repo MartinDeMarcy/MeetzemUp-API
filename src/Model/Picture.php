@@ -231,12 +231,14 @@ class Picture
     *
     * @return \JSON
     */
-    public function toJson() {
+    public function toJson($option) {
         $json = new \stdClass();
 
         foreach ($this as $key => $value) {
-            if ($value instanceof User)
+            if ($value instanceof User && is_null($option))
                 $json->$key = $value->getJson();
+            else if ($value instanceof User && $option == 1)
+                $json->$key = $value->getId();
             else
                $json->$key = $value;
         }

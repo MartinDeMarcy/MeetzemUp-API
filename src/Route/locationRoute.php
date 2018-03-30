@@ -1,5 +1,6 @@
 <?php
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Model\Location;
 use App\Repository\LocationRepository;
@@ -106,4 +107,22 @@ $app->match('location/delete/{id}', function ($id) use ($app) {
 	$em->flush();
 
 	return $app->json('Location correctly removed', 200);
+});
+
+$app->match('location/getbyuser/{id}', function ($id) use ($app) {
+	$em = $app['orm.em'];
+	$json = new \stdClass();
+	$user = $em->getRepository("Model\User")->find($id);
+
+	if (!$user) {
+        return new Response($app->json('The user with id: ' . $id . ' was not found.'), 404);
+    }
+
+	$locations = $em->getRepository("Model\Location")->findBy(array('user' => $user->getId()));
+
+	foreach ($locations as $key => $location) {
+		$json->$key = json_decode($location->toJson(1), true);
+	}
+	
+	return new JsonResponse($json, 200);
 });

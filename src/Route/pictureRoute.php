@@ -1,5 +1,6 @@
 <?php
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Model\Picture;
 use App\Repository\PictureRepository;
@@ -111,4 +112,22 @@ $app->match('picture/delete/{id}', function ($id) use ($app) {
 	$em->flush();
 
 	return $app->json('Picture correctly removed', 200);
+});
+
+$app->match('picture/getbyuser/{id}', function ($id) use ($app) {
+	$em = $app['orm.em'];
+	$json = new \stdClass();
+	$user = $em->getRepository("Model\User")->find($id);
+
+	if (!$user) {
+        return new Response($app->json('The user with id: ' . $id . ' was not found.'), 404);
+    }
+
+	$pictures = $em->getRepository("Model\Picture")->findBy(array('user' => $user->getId()));
+
+	foreach ($pictures as $key => $picture) {
+		$json->$key = json_decode($picture->toJson(1), true);
+	}
+	
+	return new JsonResponse($json, 200);
 });
