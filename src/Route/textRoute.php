@@ -59,7 +59,7 @@ $app->match('text/get/{id}', function ($id) use ($app) {
         return $app->json('The text with id: ' . $id . ' was not found.', 404);
     }
 
-    return $text->toJson();
+    return $text->toJson(1);
 });
 
 $app->match('text/update/{id}', function (Request $request, $id) use ($app) {

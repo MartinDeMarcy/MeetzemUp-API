@@ -72,6 +72,7 @@ $app->register(new DoctrineServiceProvider, array(
 $app->after(function (Request $request, Response $response) {
     $response->headers->set('Access-Control-Allow-Origin', '*');
     $response->headers->set('Access-Control-Allow-Headers', 'Authorization');
+    /*$response->headers->set('Access-Control-Allow-Methods', 'POST, GET');*/
 });
 
 /* sessions */

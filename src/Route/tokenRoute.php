@@ -53,7 +53,7 @@ $app->match('token/get/{id}', function ($id) use ($app) {
         return $app->json('The token with id: ' . $id . ' was not found.', 404);
     }
 
-    return $token->toJson();
+    return $token->toJson(1);
 });
 
 $app->match('token/update/{id}', function (Request $request, $id) use ($app) {

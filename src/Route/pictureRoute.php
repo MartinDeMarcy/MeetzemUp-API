@@ -59,7 +59,7 @@ $app->match('picture/get/{id}', function ($id) use ($app) {
         return $app->json('The picture with id: ' . $id . ' was not found.', 404);
     }
 
-    return $picture->toJson();
+    return $picture->toJson(1);
 });
 
 $app->match('picture/update/{id}', function (Request $request, $id) use ($app) {

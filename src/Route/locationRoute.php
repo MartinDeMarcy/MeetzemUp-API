@@ -56,7 +56,7 @@ $app->match('location/get/{id}', function ($id) use ($app) {
         return $app->json('The location with id: ' . $id . ' was not found.', 404);
     }
 
-    return $location->toJson();
+    return $location->toJson(1);
 });
 
 $app->match('location/update/{id}', function (Request $request, $id) use ($app) {

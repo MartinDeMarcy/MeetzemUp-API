@@ -54,7 +54,7 @@ $app->match('video/get/{id}', function ($id) use ($app) {
         return $app->json('The video with id: ' . $id . ' was not found.', 404);
     }
 
-    return $video->toJson();
+    return $video->toJson(1);
 });
 
 $app->match('video/update/{id}', function (Request $request, $id) use ($app) {

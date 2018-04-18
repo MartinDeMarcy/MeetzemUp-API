@@ -46,7 +46,7 @@ $app->match('match/get/{id}', function ($id) use ($app) {
         return $app->json('The match with id: ' . $id . ' was not found.', 404);
     }
 
-    return $match->toJson();
+    return $match->toJson(1);
 });
 
 $app->match('match/update/{id}', function (Request $request, $id) use ($app) {

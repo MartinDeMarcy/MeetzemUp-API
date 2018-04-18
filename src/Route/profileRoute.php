@@ -50,7 +50,7 @@ $app->match('profile/get/{id}', function ($id) use ($app) {
         return $app->json('The profile with id: ' . $id . ' was not found.', 404);
     }
 
-    return $profile->toJson();
+    return $profile->toJson(1);
 });
 
 $app->match('profile/update/{id}', function (Request $request, $id) use ($app) {

@@ -51,7 +51,7 @@ $app->match('interest/get/{id}', function ($id) use ($app) {
         return $app->json('The interest with id: ' . $id . ' was not found.', 404);
     }
 
-    return $interest->toJson();
+    return $interest->toJson(1);
 });
 
 $app->match('interest/update/{id}', function (Request $request, $id) use ($app) {

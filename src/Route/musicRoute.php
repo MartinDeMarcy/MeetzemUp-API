@@ -59,7 +59,7 @@ $app->match('music/get/{id}', function ($id) use ($app) {
         return $app->json('The music with id: ' . $id . ' was not found.', 404);
     }
 
-    return $music->toJson();
+    return $music->toJson(1);
 });
 
 $app->match('music/update/{id}', function (Request $request, $id) use ($app) {
