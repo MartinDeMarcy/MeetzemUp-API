@@ -272,7 +272,6 @@
       $(form).submit(function(event) {
           event.preventDefault();
           var formData = $(form).serialize();
-          console.log(formData);
           $.ajax({
               type: 'POST',
               url: $(form).attr('action'),
