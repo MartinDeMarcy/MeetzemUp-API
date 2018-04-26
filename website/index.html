@@ -31,7 +31,7 @@
   <!-- Navigation -->
   <nav class="navbar navbar-light bg-light static-top">
     <div class="container">
-      <a class="navbar-brand" href="#">MeetZemUp</a>
+      <a class="navbar-brand" href="/">MeetZemUp</a>
     </div>
   </nav>
 
@@ -41,7 +41,7 @@
     <div class="container">
       <div class="row">
         <div class="col-xl-9 mx-auto">
-          <h1 class="mb-5">Faite de nouvelles rencontres authentiques proposé selon votre profil numérique et sans effort !</h1>
+          <h1 class="mb-5">Faite de nouvelles rencontres authentiques proposées selon votre profil numérique et sans effort !</h1>
         </div>
       </div>
     </div>
@@ -67,7 +67,7 @@
               <i class="icon-social-twitter m-auto text-primary"></i>
               <i class="icon-social-google m-auto text-primary"></i>
             </div>
-            <h3>De multiples plateformes supportés</h3>
+            <h3>De multiples plateformes supportées</h3>
             <p class="lead mb-0">Enregistrer tous vos comptes sur tous les réseaux sociaux ou vous êtes actif.</p>
           </div>
         </div>
@@ -104,7 +104,7 @@
         </div>
       </div>
       <div class="row no-gutters">
-        <div class="col-lg-6 order-lg-2 text-white showcase-img" style="background-image: url('img/bg-showcase-1.jpg');"></div>
+        <div class="cross col-lg-6 order-lg-2 text-white showcase-img" style="background-image: url('img/cross.jpg');"></div>
         <div class="col-lg-6 order-lg-1 my-auto showcase-text">
           <h2>Une application multi-plateforme gratuite</h2>
           <p class="lead mb-0">Etant des utilisateurs réguliers d’applications sociales sur nos smartphones, nous savons quel est le meilleur format pour application comme la nôtre. En réalisant MeetZemUp, nous visons à élargir le maximum les horizons de vos relations en proposant notre service gratuitement. Le tout automatiquement et sans aucun entretien de la part de l’utilisateur. </p>
@@ -216,23 +216,15 @@
   <div class="container">
     <div class="row">
       <div class="col-lg-6 h-100 text-center text-lg-left my-auto">
-        <!--<ul class="list-inline mb-2">
+        <ul class="list-inline mb-2">
           <li class="list-inline-item">
-            <a href="pages/cgu.html">CGU</a>
+            <a href="page/cgu.html">Conditions générales d'utilisation</a>
           </li>
           <li class="list-inline-item">&sdot;</li>
           <li class="list-inline-item">
-            <a href="#">Contact</a>
+            <a href="page/privacy.html">Politique de confidentialité</a>
           </li>
-          <li class="list-inline-item">&sdot;</li>
-          <li class="list-inline-item">
-            <a href="#">Terms of Use</a>
-          </li>
-          <li class="list-inline-item">&sdot;</li>
-          <li class="list-inline-item">
-            <a href="#">Privacy Policy</a>
-          </li>
-        </ul>-->
+        </ul>
         <p class="text-muted small mb-4 mb-lg-0">&copy; MeetZemUp 2018. All Rights Reserved.</p>
       </div>
       <div class="col-lg-6 h-100 text-center text-lg-right my-auto">
@@ -261,29 +253,7 @@
 <!-- Bootstrap core JavaScript -->
 <script src="vendor/jquery/jquery.min.js"></script>
 <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-<script>
-  $(function() {
-      var form = $('#contact');
-      var formMessages = $('#form-messages');
-      var formError = $('#form-errors');
-      formMessages.hide();
-      formError.hide();
-
-      $(form).submit(function(event) {
-          event.preventDefault();
-          var formData = $(form).serialize();
-          $.ajax({
-              type: 'POST',
-              url: $(form).attr('action'),
-              data: formData
-          }).done(function (response) {
-            formMessages.fadeIn();
-          }).fail(function (response) {
-            formError.show();
-          });
-      });
-  });
-</script>
+<script src="js/index.js"></script>
 </body>
 
 </html>

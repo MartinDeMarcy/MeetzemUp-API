@@ -130,3 +130,7 @@ footer.footer {
   width: 100px;
   border-radius: 200px;
 }
+
+.cross {
+  background-size: cover;
+}
