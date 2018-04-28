@@ -9,44 +9,63 @@ use App\Repository\TextRepository;
 $app->match('/text/create', function (Request $request) use ($app) {
 
 	$em = $app['orm.em'];
-	$text = new Text();
+	$relation = false;
 
-	if ($request->get('user_id')) {
-		$user = $em->getRepository("Model\User")->find($request->get('user_id'));
-		if ($user)
-			$text->setUser($user);
-		else
-			return $app->json("No user with id " . $request->get('user_id') . " was found.", 404);
+	if ($request->get('content') && $request->get('context')) {
+		$text = $em->getRepository("Model\Text")->findOneBy(array('content' => $request->get('content')));
+		if (strcmp($request->get('context'), "hashtag") == 0 && $text) {
+			if ($request->get('relative_id')) {
+				$parent = $em->getRepository("Model\Text")->find($request->get('relative_id'));
+				if ($parent) {
+					foreach ($parent->getTextChild() as $value) {
+						$relation = true;
+					}
+					if ($relation)
+						return $app->json(array('msg' => 'Text already added and linked', 'id' => $text->getId()), 200);
+					else if ($text->getId() == $parent->getId())
+						return $app->json("You can not link a text with itself", 406);
+					else
+						$text->addTextParent($parent);
+				}
+				else
+					return $app->json("No text with id " . $request->get('relative_id') . " was found.", 404);
+			}
+			else
+				return $app->json("Relative id missing or null for hashtag", 406);
+		}
+		else {
+			$text = new Text();
+			$text->setContent($request->get('content'));
+			$text->setContext($request->get('context'));
+
+			if ($request->get('user_id')) {
+				$user = $em->getRepository("Model\User")->find($request->get('user_id'));
+				if ($user)
+					$text->setUser($user);
+				else
+					return $app->json("No user with id " . $request->get('user_id') . " was found", 404);
+			}
+
+			if ($request->get('relative_id')) {
+				$parent = $em->getRepository("Model\Text")->find($request->get('relative_id'));
+				if ($parent) {
+					$text->addTextParent($parent);
+				}
+				else
+					return $app->json("No text with id " . $request->get('relative_id') . " was found.", 404);
+			}
+
+			if ($request->get('processed'))
+				$text->setProcessed($request->get('processed'));
+		}
 	}
 	else
-		return $app->json("User id missing or null", 406);
-
-	if ($request->get('content'))
-		$text->setContent($request->get('content'));
-	else
-		return $app->json("Content missing or null", 406);
-
-	if ($request->get('context'))
-		$text->setContext($request->get('context'));
-
-	if ($request->get('feeling'))
-		$text->setFeeling($request->get('feeling'));
-
-	if ($request->get('representation'))
-		$text->setRepresentation($request->get('representation'));
-
-	if ($request->get('classification'))
-		$text->setClassification($request->get('classification'));
-
-	if ($request->get('relative_id'))
-		$text->setRelativeId($request->get('relative_id'));
-
-	if ($request->get('processed'))
-		$text->setProcessed($request->get('processed'));
+		return $app->json("Content or context missing or null", 406);
 
 	$text->setLastUpdate(new DateTime(date('Y-m-d G:i:s')));
 	$em->persist($text);
 	$em->flush();
+
 
     return $app->json(array('msg' => 'Text correctly added', 'id' => $text->getId()), 201);
 });
@@ -83,15 +102,6 @@ $app->match('text/update/{id}', function (Request $request, $id) use ($app) {
 
 	if ($request->get('context'))
 		$text->setContext($request->get('context'));
-
-	if ($request->get('feeling'))
-		$text->setFeeling($request->get('feeling'));
-
-	if ($request->get('representation'))
-		$text->setRepresentation($request->get('representation'));
-
-	if ($request->get('classification'))
-		$text->setClassification($request->get('classification'));
 
 	if ($request->get('relative_id'))
 		$text->setRelativeId($request->get('relative_id'));
@@ -134,6 +144,6 @@ $app->match('text/getbyuser/{id}', function ($id) use ($app) {
 	foreach ($texts as $key => $text) {
 		$json->$key = json_decode($text->toJson(1), true);
 	}
-	
+
 	return new JsonResponse($json, 200);
 });

@@ -16,21 +16,6 @@ Model\Text:
             type: string
             lenght: 500
             nullable: true
-        feeling:
-            type: string
-            lenght: 500
-            nullable: true
-        representation:
-            type: string
-            lenght: 500
-            nullable: true
-        classification:
-            type: string
-            lenght: 500
-            nullable: true
-        relative_id:
-            type: integer
-            nullable: true
         processed:
             type: integer
             nullable: true
@@ -42,5 +27,28 @@ Model\Text:
         user:
             targetEntity: User
             joinColumn:
-                name: user
+                name: user_id
                 referencedColumnName: id
+    manyToMany:
+        textParent:
+            targetEntity: Text
+            inversedBy: textChild
+            joinTable:
+                name: text_relatives
+                joinColumn:
+                    relative_parent:
+                        referencedColumnName: id
+                        nullable: false
+                        unique: false
+                inverseJoinColumns:
+                    relative_id:
+                        referencedColumnName: id
+        textChild:
+            targetEntity: Text
+            mappedBy: textParent
+
+
+
+
+
+

@@ -1,7 +1,7 @@
 <?php
 
 	/**
-    * Return JSON Object of the entity
+    * Return JSON Object of the entity User
     *
     * @return \JSON
     */
@@ -12,6 +12,25 @@
             if ($value instanceof User && is_null($option))
                 $json->$key = $value->getJson();
             else if ($value instanceof User && $option == 1)
+                $json->$key = $value->getId();
+            else
+               $json->$key = $value;
+        }
+        return json_encode($json);
+    }
+
+    /**
+    * Return JSON Object of the entity Text
+    *
+    * @return \JSON
+    */
+    public function toJson($option) {
+        $json = new \stdClass();
+
+        foreach ($this as $key => $value) {
+            if ($value instanceof Text && is_null($option))
+                $json->$key = $value->getJson();
+            else if ($value instanceof Text && $option == 1)
                 $json->$key = $value->getId();
             else
                $json->$key = $value;
