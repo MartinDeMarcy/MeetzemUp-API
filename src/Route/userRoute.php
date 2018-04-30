@@ -35,6 +35,9 @@ $app->match('/user/create', function (Request $request) use ($app) {
 	if ($request->get('email'))
 		$user->setEmail($request->get('email'));
 
+	if ($request->get('profile_picture'))
+		$user->setProfilePicture($request->get('profile_picture'));
+
 	if ($request->get('facebook_linked'))
 		$user->setFacebookLinked($request->get('facebook_linked'));
 
@@ -85,6 +88,9 @@ $app->match('user/update/{id}', function (Request $request, $id) use ($app) {
 	if ($request->get('email'))
 		$user->setEmail($request->get('email'));
 
+	if ($request->get('profile_picture'))
+		$user->setProfilePicture($request->get('profile_picture'));
+
 	if ($request->get('facebook_linked'))
 		$user->setFacebookLinked($request->get('facebook_linked'));
 
@@ -99,7 +105,7 @@ $app->match('user/update/{id}', function (Request $request, $id) use ($app) {
 
 	if ($request->get('instagram_linked'))
 		$user->setInstagramLinked($request->get('instagram_linked'));
-	
+
 	$user->setLastUpdate(new DateTime(date('Y-m-d G:i:s')));
 	$em->persist($user);
 	$em->flush();

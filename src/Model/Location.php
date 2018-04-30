@@ -35,6 +35,11 @@ class Location
     /**
      * @var string
      */
+    private $address;
+
+    /**
+     * @var string
+     */
     private $country;
 
     /**
@@ -63,7 +68,7 @@ class Location
     public function setUser(\Model\User $user = null)
     {
         $this->user = $user;
-    
+
         return $this;
     }
 
@@ -87,7 +92,7 @@ class Location
     public function setLatitude($latitude)
     {
         $this->latitude = $latitude;
-    
+
         return $this;
     }
 
@@ -111,7 +116,7 @@ class Location
     public function setLongitude($longitude)
     {
         $this->longitude = $longitude;
-    
+
         return $this;
     }
 
@@ -135,7 +140,7 @@ class Location
     public function setCity($city)
     {
         $this->city = $city;
-    
+
         return $this;
     }
 
@@ -150,6 +155,30 @@ class Location
     }
 
     /**
+     * Set address
+     *
+     * @param string $address
+     *
+     * @return Location
+     */
+    public function setAddress($address)
+    {
+        $this->address = $address;
+
+        return $this;
+    }
+
+    /**
+     * Get address
+     *
+     * @return string
+     */
+    public function getAddress()
+    {
+        return $this->address;
+    }
+
+    /**
      * Set country
      *
      * @param string $country
@@ -159,7 +188,7 @@ class Location
     public function setCountry($country)
     {
         $this->country = $country;
-    
+
         return $this;
     }
 
@@ -183,7 +212,7 @@ class Location
     public function setLastUpdate($lastUpdate)
     {
         $this->last_update = $lastUpdate;
-    
+
         return $this;
     }
 

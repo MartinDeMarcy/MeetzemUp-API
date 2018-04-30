@@ -26,6 +26,12 @@ $app->match('/picture/create', function (Request $request) use ($app) {
 	else
 		return $app->json("Direct link missing or null", 406);
 
+	if ($request->get('output_primary'))
+		$picture->setOutputPrimary($request->get('output_primary'));
+
+	if ($request->get('output_secondary'))
+		$picture->setOutputSecondary($request->get('output_secondary'));
+
 	if ($request->get('meta'))
 		$picture->setMeta($request->get('meta'));
 	else
@@ -41,8 +47,13 @@ $app->match('/picture/create', function (Request $request) use ($app) {
 	else
 		return $app->json("Context missing or null", 406);
 
-	if ($request->get('processed'))
-		$picture->setProcessed($request->get('processed'));
+	if ($request->get('relative_id')) {
+		$relative = $em->getRepository("Model\Picture")->find($request->get('relative_id'));
+		if ($relative)
+			$picture->setRelative($relative);
+		else
+			return $app->json("No picture with id " . $request->get('relative_id') . " was found.", 404);
+	}
 
 	$picture->setLastUpdate(new DateTime(date('Y-m-d G:i:s')));
 	$em->persist($picture);
@@ -84,14 +95,25 @@ $app->match('picture/update/{id}', function (Request $request, $id) use ($app) {
 	if ($request->get('meta'))
 		$picture->setMeta($request->get('meta'));
 
+	if ($request->get('output_primary'))
+		$picture->setOutputPrimary($request->get('output_primary'));
+
+	if ($request->get('output_secondary'))
+		$picture->setOutputSecondary($request->get('output_secondary'));
+
 	if ($request->get('content'))
 		$picture->setContent($request->get('content'));
 
 	if ($request->get('context'))
 		$picture->setContext($request->get('context'));
 
-	if ($request->get('processed'))
-		$picture->setProcessed($request->get('processed'));
+	if ($request->get('relative_id')) {
+		$relative = $em->getRepository("Model\Picture")->find($request->get('relative_id'));
+		if ($relative)
+			$picture->setRelative($relative);
+		else
+			return $app->json("No picture with id " . $request->get('relative_id') . " was found.", 404);
+	}
 
 	$picture->setLastUpdate(new DateTime(date('Y-m-d G:i:s')));
 	$em->persist($picture);
@@ -128,6 +150,6 @@ $app->match('picture/getbyuser/{id}', function ($id) use ($app) {
 	foreach ($pictures as $key => $picture) {
 		$json->$key = json_decode($picture->toJson(1), true);
 	}
-	
+
 	return new JsonResponse($json, 200);
 });

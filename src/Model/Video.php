@@ -23,6 +23,21 @@ class Video
     private $direct_link;
 
     /**
+     * @var \Model\Video
+     */
+    private $relative;
+
+    /**
+     * @var string
+     */
+    private $output_primary;
+
+    /**
+     * @var string
+     */
+    private $output_secondary;
+
+    /**
      * @var string
      */
     private $context;
@@ -30,12 +45,7 @@ class Video
     /**
      * @var string
      */
-    private $title;
-
-    /**
-     * @var integer
-     */
-    private $processed;
+    private $content;
 
     /**
      * @var \DateTime
@@ -63,7 +73,7 @@ class Video
     public function setUser(\Model\User $user = null)
     {
         $this->user = $user;
-    
+
         return $this;
     }
 
@@ -87,7 +97,7 @@ class Video
     public function setDirectLink($directLink)
     {
         $this->direct_link = $directLink;
-    
+
         return $this;
     }
 
@@ -102,6 +112,78 @@ class Video
     }
 
     /**
+     * Set relative
+     *
+     * @param \Model\Video $relative
+     *
+     * @return Video
+     */
+    public function setRelative(\Model\Video $relative = null)
+    {
+        $this->relative = $relative;
+
+        return $this;
+    }
+
+    /**
+     * Get relative
+     *
+     * @return \Model\Video
+     */
+    public function getRelative()
+    {
+        return $this->relative;
+    }
+
+    /**
+     * Set outputPrimary
+     *
+     * @param string $outputPrimary
+     *
+     * @return Video
+     */
+    public function setOutputPrimary($outputPrimary)
+    {
+        $this->output_primary = $outputPrimary;
+
+        return $this;
+    }
+
+    /**
+     * Get outputPrimary
+     *
+     * @return string
+     */
+    public function getOutputPrimary()
+    {
+        return $this->output_primary;
+    }
+
+    /**
+     * Set outputSecondary
+     *
+     * @param string $outputSecondary
+     *
+     * @return Video
+     */
+    public function setOutputSecondary($outputSecondary)
+    {
+        $this->output_secondary = $outputSecondary;
+
+        return $this;
+    }
+
+    /**
+     * Get outputSecondary
+     *
+     * @return string
+     */
+    public function getOutputSecondary()
+    {
+        return $this->output_secondary;
+    }
+
+    /**
      * Set context
      *
      * @param string $context
@@ -111,7 +193,7 @@ class Video
     public function setContext($context)
     {
         $this->context = $context;
-    
+
         return $this;
     }
 
@@ -126,51 +208,27 @@ class Video
     }
 
     /**
-     * Set title
+     * Set content
      *
-     * @param string $title
+     * @param string $content
      *
      * @return Video
      */
-    public function setTitle($title)
+    public function setContent($content)
     {
-        $this->title = $title;
-    
+        $this->content = $content;
+
         return $this;
     }
 
     /**
-     * Get title
+     * Get content
      *
      * @return string
      */
-    public function getTitle()
+    public function getContent()
     {
-        return $this->title;
-    }
-
-    /**
-     * Set processed
-     *
-     * @param integer $processed
-     *
-     * @return Video
-     */
-    public function setProcessed($processed)
-    {
-        $this->processed = $processed;
-    
-        return $this;
-    }
-
-    /**
-     * Get processed
-     *
-     * @return integer
-     */
-    public function getProcessed()
-    {
-        return $this->processed;
+        return $this->content;
     }
 
     /**
@@ -183,7 +241,7 @@ class Video
     public function setLastUpdate($lastUpdate)
     {
         $this->last_update = $lastUpdate;
-    
+
         return $this;
     }
 
@@ -206,12 +264,17 @@ class Video
         $json = new \stdClass();
 
         foreach ($this as $key => $value) {
-            if ($value instanceof User && is_null($option))
-                $json->$key = $value->getJson();
-            else if ($value instanceof User && $option == 1)
-                $json->$key = $value->getId();
-            else
-               $json->$key = $value;
+            $textArray = array();
+            if (strcmp($key, "__initializer__") != 0 && strcmp($key, "__cloner__") && strcmp($key, "__isInitialized__")) {
+                if ($value instanceof User && is_null($option))
+                    $json->$key = $value->getJson();
+                else if ($value instanceof User && $option == 1)
+                    $json->$key = $value->getId();
+                else if ($value instanceof Video && $option == 1)
+                    $json->$key = $value->getId();
+                else
+                   $json->$key = $value;
+           }
         }
         return json_encode($json);
     }

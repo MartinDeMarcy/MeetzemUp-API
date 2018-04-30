@@ -12,6 +12,14 @@ Model\Picture:
         direct_link:
             type: string
             lenght: 1000
+        output_primary:
+            type: string
+            lenght: 1000
+            nullable: true
+        output_secondary:
+            type: string
+            lenght: 1000
+            nullable: true
         meta:
             type: string
             lenght: 500
@@ -21,11 +29,6 @@ Model\Picture:
         context:
             type: string
             lenght: 500
-        processed:
-            type: integer
-            nullable: true
-            options:
-                default: 0
         last_update:
             type: datetime
     manyToOne:
@@ -33,4 +36,9 @@ Model\Picture:
             targetEntity: User
             joinColumn:
                 name: user
+                referencedColumnName: id
+        relative:
+            targetEntity: Picture
+            joinColumn:
+                name: relative
                 referencedColumnName: id

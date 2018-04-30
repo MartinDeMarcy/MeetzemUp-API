@@ -11,14 +11,22 @@ Model\Location:
                 strategy: AUTO
         latitude:
             type: float
+            nullable: true
         longitude:
             type: float
+            nullable: true
         city:
             type: string
             lenght: 500
+            nullable: true
+        address:
+            type: string
+            lenght: 1000
+            nullable: true
         country:
             type: string
             lenght: 500
+            nullable: true
         last_update:
             type: datetime
     manyToOne:

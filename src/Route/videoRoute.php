@@ -26,18 +26,29 @@ $app->match('/video/create', function (Request $request) use ($app) {
 	else
 		return $app->json("Direct link missing or null", 406);
 
+	if ($request->get('output_primary'))
+		$video->setOutputPrimary($request->get('output_primary'));
+
+	if ($request->get('output_secondary'))
+		$video->setOutputSecondary($request->get('output_secondary'));
+
 	if ($request->get('context'))
 		$video->setContext($request->get('context'));
 	else
 		return $app->json("Context missing or null", 406);
 
-	if ($request->get('title'))
-		$video->setTitle($request->get('title'));
+	if ($request->get('content'))
+		$video->setContent($request->get('content'));
 	else
-		return $app->json("Title missing or null", 406);
+		return $app->json("Content missing or null", 406);
 
-	if ($request->get('processed'))
-		$video->setProcessed($request->get('processed'));
+	if ($request->get('relative_id')) {
+		$relative = $em->getRepository("Model\Video")->find($request->get('relative_id'));
+		if ($relative)
+			$video->setRelative($relative);
+		else
+			return $app->json("No video with id " . $request->get('relative_id') . " was found.", 404);
+	}
 
 	$video->setLastUpdate(new DateTime(date('Y-m-d G:i:s')));
 	$em->persist($video);
@@ -76,14 +87,25 @@ $app->match('video/update/{id}', function (Request $request, $id) use ($app) {
 	if ($request->get('direct_link'))
 		$video->setDirectLink($request->get('direct_link'));
 
+	if ($request->get('output_primary'))
+		$video->setOutputPrimary($request->get('output_primary'));
+
+	if ($request->get('output_secondary'))
+		$video->setOutputSecondary($request->get('output_secondary'));
+
 	if ($request->get('context'))
 		$video->setContext($request->get('context'));
 
-	if ($request->get('title'))
-		$video->setTitle($request->get('title'));
+	if ($request->get('content'))
+		$video->setContent($request->get('content'));
 
-	if ($request->get('processed'))
-		$video->setProcessed($request->get('processed'));
+	if ($request->get('relative_id')) {
+		$relative = $em->getRepository("Model\Video")->find($request->get('relative_id'));
+		if ($relative)
+			$video->setRelative($relative);
+		else
+			return $app->json("No video with id " . $request->get('relative_id') . " was found.", 404);
+	}
 
 	$video->setLastUpdate(new DateTime(date('Y-m-d G:i:s')));
 	$em->persist($video);
@@ -120,6 +142,6 @@ $app->match('video/getbyuser/{id}', function ($id) use ($app) {
 	foreach ($videos as $key => $video) {
 		$json->$key = json_decode($video->toJson(1), true);
 	}
-	
+
 	return new JsonResponse($json, 200);
 });

@@ -11,9 +11,16 @@ $app->match('/text/create', function (Request $request) use ($app) {
 	$em = $app['orm.em'];
 	$relation = false;
 
+	if ($request->get('network_id')) {
+		$text = $em->getRepository("Model\Text")->findOneBy(array('network_id' => $request->get('network_id')));
+		if ($text) {
+			return $app->json(array('msg' => 'Text already added', 'id' => $text->getId()), 200);
+		}
+	}
+
 	if ($request->get('content') && $request->get('context')) {
 		$text = $em->getRepository("Model\Text")->findOneBy(array('content' => $request->get('content')));
-		if (strcmp($request->get('context'), "hashtag") == 0 && $text) {
+		if (strcmp($request->get('context'), "t_hashtag") == 0 && $text) {
 			if ($request->get('relative_id')) {
 				$parent = $em->getRepository("Model\Text")->find($request->get('relative_id'));
 				if ($parent) {
@@ -67,7 +74,7 @@ $app->match('/text/create', function (Request $request) use ($app) {
 	$em->flush();
 
 
-    return $app->json(array('msg' => 'Text correctly added', 'id' => $text->getId()), 201);
+	return $app->json(array('msg' => 'Text correctly added', 'id' => $text->getId()), 201);
 });
 
 $app->match('text/get/{id}', function ($id) use ($app) {
@@ -75,10 +82,10 @@ $app->match('text/get/{id}', function ($id) use ($app) {
 	$text = $em->find(Text::class, $id);
 
 	if (!$text) {
-        return $app->json('The text with id: ' . $id . ' was not found.', 404);
-    }
+		return $app->json('The text with id: ' . $id . ' was not found.', 404);
+	}
 
-    return $text->toJson(1);
+	return $text->toJson(1);
 });
 
 $app->match('text/update/{id}', function (Request $request, $id) use ($app) {
@@ -86,8 +93,8 @@ $app->match('text/update/{id}', function (Request $request, $id) use ($app) {
 	$text = $em->find(Text::class, $id);
 
 	if (!$text) {
-        return $app->json('The text with id: ' . $id . ' was not found.', 404);
-    }
+		return $app->json('The text with id: ' . $id . ' was not found.', 404);
+	}
 
 	if ($request->get('user_id')) {
 		$user = $em->getRepository("Model\User")->find($request->get('user_id'));
@@ -103,8 +110,8 @@ $app->match('text/update/{id}', function (Request $request, $id) use ($app) {
 	if ($request->get('context'))
 		$text->setContext($request->get('context'));
 
-	if ($request->get('relative_id'))
-		$text->setRelativeId($request->get('relative_id'));
+	/*if ($request->get('relative_id'))
+	$text->setRelativeId($request->get('relative_id'));*/
 
 	if ($request->get('processed'))
 		$text->setProcessed($request->get('processed'));
@@ -113,7 +120,7 @@ $app->match('text/update/{id}', function (Request $request, $id) use ($app) {
 	$em->persist($text);
 	$em->flush();
 
-    return $app->json('Text correctly updated', 200);
+	return $app->json('Text correctly updated', 200);
 });
 
 $app->match('text/delete/{id}', function ($id) use ($app) {
@@ -121,8 +128,8 @@ $app->match('text/delete/{id}', function ($id) use ($app) {
 	$text = $em->find(Text::class, $id);
 
 	if (!$text) {
-        return $app->json('The text with id: ' . $id . ' was not found.', 404);
-    }
+		return $app->json('The text with id: ' . $id . ' was not found.', 404);
+	}
 
 	$em->remove($text);
 	$em->flush();
@@ -136,8 +143,8 @@ $app->match('text/getbyuser/{id}', function ($id) use ($app) {
 	$user = $em->getRepository("Model\User")->find($id);
 
 	if (!$user) {
-        return new Response($app->json('The user with id: ' . $id . ' was not found.'), 404);
-    }
+		return new Response($app->json('The user with id: ' . $id . ' was not found.'), 404);
+	}
 
 	$texts = $em->getRepository("Model\Text")->findBy(array('user' => $user->getId()));
 

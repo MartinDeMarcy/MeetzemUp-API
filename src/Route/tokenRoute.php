@@ -35,8 +35,9 @@ $app->match('/token/create', function (Request $request) use ($app) {
 
 	if ($request->get('refresh_token'))
 		$token->setRefreshToken($request->get('refresh_token'));
-	else
-		return $app->json("Refresh token missing or null", 406);
+
+	if ($request->get('secret_token'))
+		$token->setSecretToken($request->get('secret_token'));
 
 	$token->setLastUpdate(new DateTime(date('Y-m-d G:i:s')));
 	$em->persist($token);
@@ -84,6 +85,9 @@ $app->match('token/update/{id}', function (Request $request, $id) use ($app) {
 	if ($request->get('refresh_token'))
 		$token->setRefreshToken($request->get('refresh_token'));
 
+	if ($request->get('secret_token'))
+		$token->setSecretToken($request->get('secret_token'));
+
 	$token->setLastUpdate(new DateTime(date('Y-m-d G:i:s')));
 	$em->persist($token);
 	$em->flush();
@@ -103,4 +107,20 @@ $app->match('token/delete/{id}', function ($id) use ($app) {
 	$em->flush();
 
 	return $app->json('Token correctly removed', 200);
+});
+
+$app->match('token/getbyuser/{type}/{id}', function ($id, $type) use ($app) {
+	$em = $app['orm.em'];
+	$user = $em->getRepository("Model\User")->find($id);
+
+	if ($user) {
+		$token = $em->getRepository("Model\Token")->findOneBy(array('user' => $user, 'type' => $type));
+		if (!$token) {
+			return $app->json('The token with id: ' . $id . ' was not found.', 404);
+		}
+		else {
+			return $token->toJson(1);
+		}
+	}
+	return $app->json('The user with id: ' . $id . ' was not found.', 404);
 });

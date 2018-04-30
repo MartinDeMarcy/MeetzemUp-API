@@ -15,12 +15,10 @@ Model\Text:
         context:
             type: string
             lenght: 500
+        network_id:
+            type: string
+            lenght: 500
             nullable: true
-        processed:
-            type: integer
-            nullable: true
-            options:
-                default: 0
         last_update:
             type: datetime
     manyToOne:

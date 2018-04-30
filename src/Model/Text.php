@@ -23,9 +23,9 @@ class Text
     private $context;
 
     /**
-     * @var integer
+     * @var string
      */
-    private $processed = 0;
+    private $network_id;
 
     /**
      * @var \DateTime
@@ -115,27 +115,27 @@ class Text
     }
 
     /**
-     * Set processed
+     * Set networkId
      *
-     * @param integer $processed
+     * @param string $networkId
      *
      * @return Text
      */
-    public function setProcessed($processed)
+    public function setNetworkId($networkId)
     {
-        $this->processed = $processed;
+        $this->network_id = $networkId;
 
         return $this;
     }
 
     /**
-     * Get processed
+     * Get networkId
      *
-     * @return integer
+     * @return string
      */
-    public function getProcessed()
+    public function getNetworkId()
     {
-        return $this->processed;
+        return $this->network_id;
     }
 
     /**
@@ -262,32 +262,33 @@ class Text
     public function toJson($option) {
         $json = new \stdClass();
 
-
         foreach ($this as $key => $value) {
             $textArray = array();
-            if ($value instanceof User && is_null($option))
-                $json->$key = $value->getJson();
-            else if ($value instanceof User && $option == 1)
-                $json->$key = $value->getId();
-            else if (strcmp($key, "textParent") == 0) {
-                foreach ($value as $textParent) {
-                    if ($textParent)
-                        array_push($textArray, $textParent->getId());
+            if (strcmp($key, "__initializer__") != 0 && strcmp($key, "__cloner__") && strcmp($key, "__isInitialized__")) {
+                if ($value instanceof User && is_null($option))
+                    $json->$key = $value->getJson();
+                else if ($value instanceof User && $option == 1)
+                    $json->$key = $value->getId();
+                else if (strcmp($key, "textParent") == 0) {
+                    foreach ($value as $textParent) {
+                        if ($textParent)
+                            array_push($textArray, $textParent->getId());
+                    }
+                    $json->$key = json_encode($textArray);
                 }
-                $json->$key = json_encode($textArray);
-            }
-            else if (strcmp($key, "textChild") == 0) {
-                foreach ($value as $textChild) {
-                    if ($textChild)
-                        array_push($textArray, $textChild->getId());
+                else if (strcmp($key, "textChild") == 0) {
+                    foreach ($value as $textChild) {
+                        if ($textChild)
+                            array_push($textArray, $textChild->getId());
+                    }
+                    $json->$key = json_encode($textArray);
                 }
-                $json->$key = json_encode($textArray);
-            }
-            else
-               $json->$key = $value;
-        }
-        return json_encode($json);
-    }
+                else
+                 $json->$key = $value;
+         }
+     }
+     return json_encode($json);
+ }
 
     /**
     * Return JSON Object of the entity

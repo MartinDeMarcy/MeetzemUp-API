@@ -23,7 +23,6 @@ Model\Music:
             lenght: 500
         processed:
             type: integer
-            nullable: true
             options:
                 default: 0
         last_update:

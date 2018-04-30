@@ -20,6 +20,21 @@ class Picture
     /**
      * @var string
      */
+    private $output_primary;
+
+    /**
+     * @var string
+     */
+    private $output_secondary;
+
+    /**
+     * @var \Model\Picture
+     */
+    private $relative;
+
+    /**
+     * @var string
+     */
     private $direct_link;
 
     /**
@@ -36,11 +51,6 @@ class Picture
      * @var string
      */
     private $context;
-
-    /**
-     * @var integer
-     */
-    private $processed;
 
     /**
      * @var \DateTime
@@ -68,7 +78,7 @@ class Picture
     public function setUser(\Model\User $user = null)
     {
         $this->user = $user;
-    
+
         return $this;
     }
 
@@ -83,6 +93,78 @@ class Picture
     }
 
     /**
+     * Set outputPrimary
+     *
+     * @param string $outputPrimary
+     *
+     * @return Picture
+     */
+    public function setOutputPrimary($outputPrimary)
+    {
+        $this->output_primary = $outputPrimary;
+
+        return $this;
+    }
+
+    /**
+     * Get outputPrimary
+     *
+     * @return string
+     */
+    public function getOutputPrimary()
+    {
+        return $this->output_primary;
+    }
+
+    /**
+     * Set outputSecondary
+     *
+     * @param string $outputSecondary
+     *
+     * @return Picture
+     */
+    public function setOutputSecondary($outputSecondary)
+    {
+        $this->output_secondary = $outputSecondary;
+
+        return $this;
+    }
+
+    /**
+     * Get outputSecondary
+     *
+     * @return string
+     */
+    public function getOutputSecondary()
+    {
+        return $this->output_secondary;
+    }
+
+    /**
+     * Set relativeId
+     *
+     * @param \Model\Picture $relativeId
+     *
+     * @return Picture
+     */
+    public function setRelative(\Model\Picture $relative = null)
+    {
+        $this->relative = $relative;
+
+        return $this;
+    }
+
+    /**
+     * Get relativeId
+     *
+     * @return \Model\Picture
+     */
+    public function getRelative()
+    {
+        return $this->relative;
+    }
+
+    /**
      * Set directLink
      *
      * @param string $directLink
@@ -92,7 +174,7 @@ class Picture
     public function setDirectLink($directLink)
     {
         $this->direct_link = $directLink;
-    
+
         return $this;
     }
 
@@ -116,7 +198,7 @@ class Picture
     public function setMeta($meta)
     {
         $this->meta = $meta;
-    
+
         return $this;
     }
 
@@ -140,7 +222,7 @@ class Picture
     public function setContent($content)
     {
         $this->content = $content;
-    
+
         return $this;
     }
 
@@ -164,7 +246,7 @@ class Picture
     public function setContext($context)
     {
         $this->context = $context;
-    
+
         return $this;
     }
 
@@ -179,30 +261,6 @@ class Picture
     }
 
     /**
-     * Set processed
-     *
-     * @param integer $processed
-     *
-     * @return Picture
-     */
-    public function setProcessed($processed)
-    {
-        $this->processed = $processed;
-    
-        return $this;
-    }
-
-    /**
-     * Get processed
-     *
-     * @return integer
-     */
-    public function getProcessed()
-    {
-        return $this->processed;
-    }
-
-    /**
      * Set lastUpdate
      *
      * @param \DateTime $lastUpdate
@@ -212,7 +270,7 @@ class Picture
     public function setLastUpdate($lastUpdate)
     {
         $this->last_update = $lastUpdate;
-    
+
         return $this;
     }
 
@@ -235,12 +293,17 @@ class Picture
         $json = new \stdClass();
 
         foreach ($this as $key => $value) {
-            if ($value instanceof User && is_null($option))
-                $json->$key = $value->getJson();
-            else if ($value instanceof User && $option == 1)
-                $json->$key = $value->getId();
-            else
-               $json->$key = $value;
+            $textArray = array();
+            if (strcmp($key, "__initializer__") != 0 && strcmp($key, "__cloner__") && strcmp($key, "__isInitialized__")) {
+                if ($value instanceof User && is_null($option))
+                    $json->$key = $value->getJson();
+                else if ($value instanceof User && $option == 1)
+                    $json->$key = $value->getId();
+                else if ($value instanceof Picture && $option == 1)
+                    $json->$key = $value->getId();
+                else
+                   $json->$key = $value;
+           }
         }
         return json_encode($json);
     }

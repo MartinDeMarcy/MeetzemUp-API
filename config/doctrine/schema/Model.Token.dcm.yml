@@ -20,6 +20,11 @@ Model\Token:
         refresh_token:
             type: string
             lenght: 1000
+            nullable: true
+        secret_token:
+            type: string
+            lenght: 1000
+            nullable: true
         last_update:
             type: datetime
     manyToOne:

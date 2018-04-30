@@ -18,6 +18,10 @@ Model\User:
         email:
             type: string
             lenght: 500
+        profile_picture:
+            type: string
+            length: 500
+            nullable: true
         facebook_linked:
             type: integer
             options:

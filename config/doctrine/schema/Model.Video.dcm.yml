@@ -12,17 +12,20 @@ Model\Video:
         direct_link:
             type: string
             lenght: 1000
+        output_primary:
+            type: string
+            lenght: 1000
+            nullable: true
+        output_secondary:
+            type: string
+            lenght: 1000
+            nullable: true
         context:
             type: string
             lenght: 500
-        title:
+        content:
             type: string
             lenght: 500
-        processed:
-            type: integer
-            nullable: true
-            options:
-                default: 0
         last_update:
             type: datetime
     manyToOne:
@@ -30,4 +33,9 @@ Model\Video:
             targetEntity: User
             joinColumn:
                 name: user
+                referencedColumnName: id
+        relative:
+            targetEntity: Video
+            joinColumn:
+                name: relative
                 referencedColumnName: id

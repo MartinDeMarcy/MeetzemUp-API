@@ -28,6 +28,11 @@ class User
     private $email;
 
     /**
+     * @var string
+     */
+    private $profile_picture;
+
+    /**
      * @var integer
      */
     private $facebook_linked = 0;
@@ -78,7 +83,7 @@ class User
     public function setFirstName($firstName)
     {
         $this->first_name = $firstName;
-    
+
         return $this;
     }
 
@@ -102,7 +107,7 @@ class User
     public function setLastName($lastName)
     {
         $this->last_name = $lastName;
-    
+
         return $this;
     }
 
@@ -126,7 +131,7 @@ class User
     public function setEmail($email)
     {
         $this->email = $email;
-    
+
         return $this;
     }
 
@@ -141,6 +146,30 @@ class User
     }
 
     /**
+     * Set profilePicture
+     *
+     * @param string $profilePicture
+     *
+     * @return User
+     */
+    public function setProfilePicture($profilePicture)
+    {
+        $this->profile_picture = $profilePicture;
+
+        return $this;
+    }
+
+    /**
+     * Get profilePicture
+     *
+     * @return string
+     */
+    public function getProfilePicture()
+    {
+        return $this->profile_picture;
+    }
+
+    /**
      * Set facebookLinked
      *
      * @param integer $facebookLinked
@@ -150,7 +179,7 @@ class User
     public function setFacebookLinked($facebookLinked)
     {
         $this->facebook_linked = $facebookLinked;
-    
+
         return $this;
     }
 
@@ -174,7 +203,7 @@ class User
     public function setTwitterLinked($twitterLinked)
     {
         $this->twitter_linked = $twitterLinked;
-    
+
         return $this;
     }
 
@@ -198,7 +227,7 @@ class User
     public function setPinterestLinked($pinterestLinked)
     {
         $this->pinterest_linked = $pinterestLinked;
-    
+
         return $this;
     }
 
@@ -222,7 +251,7 @@ class User
     public function setGmailLinked($gmailLinked)
     {
         $this->gmail_linked = $gmailLinked;
-    
+
         return $this;
     }
 
@@ -246,7 +275,7 @@ class User
     public function setInstagramLinked($instagramLinked)
     {
         $this->instagram_linked = $instagramLinked;
-    
+
         return $this;
     }
 
@@ -270,7 +299,7 @@ class User
     public function setLastUpdate($lastUpdate)
     {
         $this->last_update = $lastUpdate;
-    
+
         return $this;
     }
 

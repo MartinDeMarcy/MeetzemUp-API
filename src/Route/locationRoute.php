@@ -23,23 +23,18 @@ $app->match('/location/create', function (Request $request) use ($app) {
 
 	if ($request->get('latitude'))
 		$location->setLatitude($request->get('latitude'));
-	else
-		return $app->json("Latitude missing or null", 406);
 
 	if ($request->get('longitude'))
 		$location->setLongitude($request->get('longitude'));
-	else
-		return $app->json("Longitude missing or null", 406);
+
+	if ($request->get('address'))
+		$location->setAddress($request->get('address'));
 
 	if ($request->get('city'))
 		$location->setCity($request->get('city'));
-	else
-		return $app->json("City missing or null", 406);
 
 	if ($request->get('country'))
 		$location->setCountry($request->get('country'));
-	else
-		return $app->json("Country missing or null", 406);
 
 	$location->setLastUpdate(new DateTime(date('Y-m-d G:i:s')));
 	$em->persist($location);
@@ -84,10 +79,13 @@ $app->match('location/update/{id}', function (Request $request, $id) use ($app) 
 	if ($request->get('city'))
 		$location->setCity($request->get('city'));
 
+	if ($request->get('address'))
+		$location->setAddress($request->get('address'));
+
 	if ($request->get('country'))
 		$location->setCountry($request->get('country'));
 
-	
+
 	$location->setLastUpdate(new DateTime(date('Y-m-d G:i:s')));
 	$em->persist($location);
 	$em->flush();
@@ -123,6 +121,6 @@ $app->match('location/getbyuser/{id}', function ($id) use ($app) {
 	foreach ($locations as $key => $location) {
 		$json->$key = json_decode($location->toJson(1), true);
 	}
-	
+
 	return new JsonResponse($json, 200);
 });

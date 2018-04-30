@@ -38,6 +38,11 @@ class Token
     private $refresh_token;
 
     /**
+     * @var string
+     */
+    private $secret_token;
+
+    /**
      * @var \DateTime
      */
     private $last_update;
@@ -63,7 +68,7 @@ class Token
     public function setUser(\Model\User $user = null)
     {
         $this->user = $user;
-    
+
         return $this;
     }
 
@@ -87,7 +92,7 @@ class Token
     public function setType($type)
     {
         $this->type = $type;
-    
+
         return $this;
     }
 
@@ -111,7 +116,7 @@ class Token
     public function setAccessToken($accessToken)
     {
         $this->access_token = $accessToken;
-    
+
         return $this;
     }
 
@@ -135,7 +140,7 @@ class Token
     public function setRefreshToken($refreshToken)
     {
         $this->refresh_token = $refreshToken;
-    
+
         return $this;
     }
 
@@ -150,6 +155,30 @@ class Token
     }
 
     /**
+     * Set secretToken
+     *
+     * @param string $secretToken
+     *
+     * @return Token
+     */
+    public function setSecretToken($secretToken)
+    {
+        $this->secret_token = $secretToken;
+
+        return $this;
+    }
+
+    /**
+     * Get secretToken
+     *
+     * @return string
+     */
+    public function getSecretToken()
+    {
+        return $this->secret_token;
+    }
+
+    /**
      * Set lastUpdate
      *
      * @param \DateTime $lastUpdate
@@ -159,7 +188,7 @@ class Token
     public function setLastUpdate($lastUpdate)
     {
         $this->last_update = $lastUpdate;
-    
+
         return $this;
     }
 
@@ -183,7 +212,7 @@ class Token
     public function setNetworkId($networkId)
     {
         $this->network_id = $networkId;
-    
+
         return $this;
     }
 
