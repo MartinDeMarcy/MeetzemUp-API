@@ -9,6 +9,9 @@ Model\Video:
             id: true
             generator:
                 strategy: AUTO
+        network_id:
+            type: string
+            lenght: 500
         direct_link:
             type: string
             lenght: 1000
@@ -26,6 +29,10 @@ Model\Video:
         content:
             type: string
             lenght: 500
+        is_liked:
+            type: boolean
+            options:
+                default: false
         last_update:
             type: datetime
     manyToOne:

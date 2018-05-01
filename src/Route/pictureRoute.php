@@ -13,7 +13,7 @@ $app->match('/picture/create', function (Request $request) use ($app) {
 	if ($request->get('network_id')) {
 		$picture = $em->getRepository("Model\Picture")->findOneBy(array('network_id' => $request->get('network_id')));
 		if ($picture) {
-			return $app->json(array('msg' => 'Text already added', 'id' => $picture->getId()), 200);
+			return $app->json(array('msg' => 'Picture already added', 'id' => $picture->getId()), 200);
 		}
 		$picture = new Picture();
 		$picture->setNetworkId($request->get('network_id'));

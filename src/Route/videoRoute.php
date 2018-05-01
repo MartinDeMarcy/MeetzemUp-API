@@ -9,7 +9,17 @@ use App\Repository\VideoRepository;
 $app->match('/video/create', function (Request $request) use ($app) {
 
 	$em = $app['orm.em'];
-	$video = new Video();
+
+	if ($request->get('network_id')) {
+		$video = $em->getRepository("Model\Video")->findOneBy(array('network_id' => $request->get('network_id')));
+		if ($video) {
+			return $app->json(array('msg' => 'Video already added', 'id' => $video->getId()), 200);
+		}
+		$video = new Video();
+		$video->setNetworkId($request->get('network_id'));
+	}
+	else
+		return $app->json("Network id missing or null", 406);
 
 	if ($request->get('user_id')) {
 		$user = $em->getRepository("Model\User")->find($request->get('user_id'));
@@ -41,6 +51,9 @@ $app->match('/video/create', function (Request $request) use ($app) {
 		$video->setContent($request->get('content'));
 	else
 		return $app->json("Content missing or null", 406);
+
+	if ($request->get('is_liked'))
+		$video->setIsLiked($request->get('is_liked'));
 
 	if ($request->get('relative_id')) {
 		$relative = $em->getRepository("Model\Video")->find($request->get('relative_id'));
@@ -84,6 +97,9 @@ $app->match('video/update/{id}', function (Request $request, $id) use ($app) {
 			return $app->json("No user with id " . $request->get('user_id') . " was found.", 404);
 	}
 
+	if ($request->get('network_id'))
+		$video->setNetworkId($request->get('network_id'));
+
 	if ($request->get('direct_link'))
 		$video->setDirectLink($request->get('direct_link'));
 
@@ -98,6 +114,9 @@ $app->match('video/update/{id}', function (Request $request, $id) use ($app) {
 
 	if ($request->get('content'))
 		$video->setContent($request->get('content'));
+
+	if ($request->get('is_liked'))
+		$video->setIsLiked($request->get('is_liked'));
 
 	if ($request->get('relative_id')) {
 		$relative = $em->getRepository("Model\Video")->find($request->get('relative_id'));

@@ -13,6 +13,11 @@ class Video
     private $id;
 
     /**
+     * @var string
+     */
+    private $network_id;
+
+    /**
      * @var \Model\User
      */
     private $user;
@@ -48,6 +53,11 @@ class Video
     private $content;
 
     /**
+     * @var boolean
+     */
+    private $is_liked = false;
+
+    /**
      * @var \DateTime
      */
     private $last_update;
@@ -61,6 +71,30 @@ class Video
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Set networkId
+     *
+     * @param string $networkId
+     *
+     * @return Video
+     */
+    public function setNetworkId($networkId)
+    {
+        $this->network_id = $networkId;
+
+        return $this;
+    }
+
+    /**
+     * Get networkId
+     *
+     * @return string
+     */
+    public function getNetworkId()
+    {
+        return $this->network_id;
     }
 
     /**
@@ -232,6 +266,30 @@ class Video
     }
 
     /**
+     * Set isLiked
+     *
+     * @param boolean $isLiked
+     *
+     * @return Video
+     */
+    public function setIsLiked($isLiked)
+    {
+        $this->is_liked = $isLiked;
+
+        return $this;
+    }
+
+    /**
+     * Get isLiked
+     *
+     * @return boolean
+     */
+    public function getIsLiked()
+    {
+        return $this->is_liked;
+    }
+
+    /**
      * Set lastUpdate
      *
      * @param \DateTime $lastUpdate
@@ -278,4 +336,10 @@ class Video
         }
         return json_encode($json);
     }
+
+
+
+
+
+
 }
