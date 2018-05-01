@@ -34,7 +34,7 @@ Model\User:
             type: integer
             options:
                 default: 0
-        gmail_linked:
+        gplus_linked:
             type: integer
             options:
                 default: 0

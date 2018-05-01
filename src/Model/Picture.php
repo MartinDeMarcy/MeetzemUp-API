@@ -13,6 +13,11 @@ class Picture
     private $id;
 
     /**
+     * @var string
+     */
+    private $network_id;
+
+    /**
      * @var \Model\User
      */
     private $user;
@@ -53,6 +58,11 @@ class Picture
     private $context;
 
     /**
+     * @var boolean
+     */
+    private $is_liked = false;
+
+    /**
      * @var \DateTime
      */
     private $last_update;
@@ -66,6 +76,30 @@ class Picture
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Set networkId
+     *
+     * @param string $networkId
+     *
+     * @return Picture
+     */
+    public function setNetworkId($networkId)
+    {
+        $this->network_id = $networkId;
+
+        return $this;
+    }
+
+    /**
+     * Get networkId
+     *
+     * @return string
+     */
+    public function getNetworkId()
+    {
+        return $this->network_id;
     }
 
     /**
@@ -258,6 +292,30 @@ class Picture
     public function getContext()
     {
         return $this->context;
+    }
+
+    /**
+     * Set isLiked
+     *
+     * @param boolean $isLiked
+     *
+     * @return Picture
+     */
+    public function setIsLiked($isLiked)
+    {
+        $this->is_liked = $isLiked;
+
+        return $this;
+    }
+
+    /**
+     * Get isLiked
+     *
+     * @return boolean
+     */
+    public function getIsLiked()
+    {
+        return $this->is_liked;
     }
 
     /**

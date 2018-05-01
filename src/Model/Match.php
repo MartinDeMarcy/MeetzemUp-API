@@ -16,11 +16,11 @@ class Match
      * @var \Model\User
      */
     private $user;
-    
+
     /**
-     * @var integer
+     * @var \Model\User
      */
-    private $match_id;
+    private $mate;
 
     /**
      * @var integer
@@ -53,7 +53,7 @@ class Match
     public function setUser(\Model\User $user = null)
     {
         $this->user = $user;
-    
+
         return $this;
     }
 
@@ -68,27 +68,27 @@ class Match
     }
 
     /**
-     * Set matchId
+     * Set mate
      *
-     * @param integer $matchId
+     * @param \Model\User $mate
      *
      * @return Match
      */
-    public function setMatchId($matchId)
+    public function setMate(\Model\User $mate = null)
     {
-        $this->match_id = $matchId;
-    
+        $this->mate = $mate;
+
         return $this;
     }
 
     /**
-     * Get matchId
+     * Get mate
      *
-     * @return integer
+     * @return \Model\User
      */
-    public function getMatchId()
+    public function getMate()
     {
-        return $this->match_id;
+        return $this->mate;
     }
 
     /**
@@ -101,7 +101,7 @@ class Match
     public function setCompatibility($compatibility)
     {
         $this->compatibility = $compatibility;
-    
+
         return $this;
     }
 
@@ -125,7 +125,7 @@ class Match
     public function setLastUpdate($lastUpdate)
     {
         $this->last_update = $lastUpdate;
-    
+
         return $this;
     }
 
@@ -148,8 +148,10 @@ class Match
         $json = new \stdClass();
 
         foreach ($this as $key => $value) {
-            if ($value instanceof User && is_null($option))
+            if (strcmp($key, "mate") == 0 && $option == 0)
                 $json->$key = $value->getJson();
+            else if (strcmp($key, "user") == 0 && $option == 0)
+                $json->$key = $value->getId();
             else if ($value instanceof User && $option == 1)
                 $json->$key = $value->getId();
             else

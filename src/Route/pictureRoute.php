@@ -9,7 +9,19 @@ use App\Repository\PictureRepository;
 $app->match('/picture/create', function (Request $request) use ($app) {
 
 	$em = $app['orm.em'];
-	$picture = new Picture();
+
+	if ($request->get('network_id')) {
+		$picture = $em->getRepository("Model\Picture")->findOneBy(array('network_id' => $request->get('network_id')));
+		if ($picture) {
+			return $app->json(array('msg' => 'Text already added', 'id' => $picture->getId()), 200);
+		}
+		$picture = new Picture();
+		$picture->setNetworkId($request->get('network_id'));
+	}
+	else
+		return $app->json("Network id missing or null", 406);
+
+
 
 	if ($request->get('user_id')) {
 		$user = $em->getRepository("Model\User")->find($request->get('user_id'));
@@ -46,6 +58,9 @@ $app->match('/picture/create', function (Request $request) use ($app) {
 		$picture->setContext($request->get('context'));
 	else
 		return $app->json("Context missing or null", 406);
+
+	if ($request->get('is_liked'))
+		$picture->setIsLiked($request->get('is_liked'));
 
 	if ($request->get('relative_id')) {
 		$relative = $em->getRepository("Model\Picture")->find($request->get('relative_id'));
@@ -92,6 +107,9 @@ $app->match('picture/update/{id}', function (Request $request, $id) use ($app) {
 	if ($request->get('direct_link'))
 		$picture->setDirectLink($request->get('direct_link'));
 
+	if ($request->get('network_id'))
+		$picture->setNetworkId($request->get('network_id'));
+
 	if ($request->get('meta'))
 		$picture->setMeta($request->get('meta'));
 
@@ -106,6 +124,9 @@ $app->match('picture/update/{id}', function (Request $request, $id) use ($app) {
 
 	if ($request->get('context'))
 		$picture->setContext($request->get('context'));
+
+	if ($request->get('is_liked'))
+		$picture->setIsLiked($request->get('is_liked'));
 
 	if ($request->get('relative_id')) {
 		$relative = $em->getRepository("Model\Picture")->find($request->get('relative_id'));

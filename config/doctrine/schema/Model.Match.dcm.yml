@@ -9,8 +9,6 @@ Model\Match:
             id: true
             generator:
                 strategy: AUTO
-        match_id:
-            type: integer
         compatibility:
             type: integer
         last_update:
@@ -21,8 +19,8 @@ Model\Match:
             joinColumn:
                 name: user
                 referencedColumnName: id
-        user:
+        mate:
             targetEntity: User
             joinColumn:
-                name: user
+                name: mate
                 referencedColumnName: id

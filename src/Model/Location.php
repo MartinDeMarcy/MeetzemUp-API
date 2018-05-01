@@ -13,6 +13,11 @@ class Location
     private $id;
 
     /**
+     * @var string
+     */
+    private $network_id;
+
+    /**
      * @var \Model\User
      */
     private $user;
@@ -56,6 +61,30 @@ class Location
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Set networkId
+     *
+     * @param string $networkId
+     *
+     * @return Location
+     */
+    public function setNetworkId($networkId)
+    {
+        $this->network_id = $networkId;
+
+        return $this;
+    }
+
+    /**
+     * Get networkId
+     *
+     * @return string
+     */
+    public function getNetworkId()
+    {
+        return $this->network_id;
     }
 
     /**

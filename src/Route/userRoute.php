@@ -47,8 +47,8 @@ $app->match('/user/create', function (Request $request) use ($app) {
 	if ($request->get('pinterest_linked'))
 		$user->setPinterestLinked($request->get('pinterest_linked'));
 
-	if ($request->get('gmail_linked'))
-		$user->setGmailLinked($request->get('gmail_linked'));
+	if ($request->get('gplus_linked'))
+		$user->setGplusLinked($request->get('gplus_linked'));
 
 	if ($request->get('instagram_linked'))
 		$user->setInstagramLinked($request->get('instagram_linked'));
@@ -100,8 +100,8 @@ $app->match('user/update/{id}', function (Request $request, $id) use ($app) {
 	if ($request->get('pinterest_linked'))
 		$user->setPinterestLinked($request->get('pinterest_linked'));
 
-	if ($request->get('gmail_linked'))
-		$user->setGmailLinked($request->get('gmail_linked'));
+	if ($request->get('gplus_linked'))
+		$user->setGplusLinked($request->get('gplus_linked'));
 
 	if ($request->get('instagram_linked'))
 		$user->setInstagramLinked($request->get('instagram_linked'));

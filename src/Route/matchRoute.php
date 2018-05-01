@@ -21,8 +21,13 @@ $app->match('/match/create', function (Request $request) use ($app) {
 	else
 		return $app->json("User id missing or null", 406);
 
-	if ($request->get('match_id'))
-		$match->setMatchId($request->get('match_id'));
+	if ($request->get('match_id')) {
+		$userM = $em->getRepository("Model\User")->find($request->get('match_id'));
+		if ($userM)
+			$match->setMate($userM);
+		else
+			return $app->json("No user with id " . $request->get('match_id') . " was found.", 404);
+	}
 	else
 		return $app->json("Match id missing or null", 406);
 
@@ -65,8 +70,13 @@ $app->match('match/update/{id}', function (Request $request, $id) use ($app) {
 			return $app->json("No user with id " . $request->get('user_id') . " was found.", 404);
 	}
 
-	if ($request->get('match_id'))
-		$match->setMatchId($request->get('match_id'));
+	if ($request->get('match_id')) {
+		$userM = $em->getRepository("Model\User")->find($request->get('match_id'));
+		if ($userM)
+			$match->setMate($userM);
+		else
+			return $app->json("No user with id " . $request->get('match_id') . " was found.", 404);
+	}
 
 	if ($request->get('compatibility'))
 		$match->setCompatibility($request->get('compatibility'));
@@ -101,11 +111,12 @@ $app->match('match/getbyuser/{id}', function ($id) use ($app) {
         return new Response($app->json('The user with id: ' . $id . ' was not found.'), 404);
     }
 
-	$matchs = $em->getRepository("Model\Match")->findBy(array('user' => $user->getId()));
+	$matches = $em->getRepository("Model\Match")->findBy(
+		array('user' => $user->getId()),
+		array('compatibility' => 'asc'));
 
-	foreach ($matchs as $key => $match) {
-		$json->$key = json_decode($match->toJson(1), true);
-	}
-	
-	return new JsonResponse($json, 200);
+	foreach ($matches as $key => $match)
+		$json->$key = json_decode($match->toJson(0), true);
+
+	return $app->json($json, 200);
 });

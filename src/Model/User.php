@@ -50,7 +50,7 @@ class User
     /**
      * @var integer
      */
-    private $gmail_linked = 0;
+    private $gplus_linked = 0;
 
     /**
      * @var integer
@@ -242,27 +242,27 @@ class User
     }
 
     /**
-     * Set gmailLinked
+     * Set gplusLinked
      *
      * @param integer $gmailLinked
      *
      * @return User
      */
-    public function setGmailLinked($gmailLinked)
+    public function setGplusLinked($gplusLinked)
     {
-        $this->gmail_linked = $gmailLinked;
+        $this->gplus_linked = $gplusLinked;
 
         return $this;
     }
 
     /**
-     * Get gmailLinked
+     * Get gplusLinked
      *
      * @return integer
      */
-    public function getGmailLinked()
+    public function getGplusLinked()
     {
-        return $this->gmail_linked;
+        return $this->gplus_linked;
     }
 
     /**

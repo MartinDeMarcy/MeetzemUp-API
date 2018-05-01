@@ -9,6 +9,9 @@ Model\Location:
             id: true
             generator:
                 strategy: AUTO
+        network_id:
+            type: string
+            lenght: 500
         latitude:
             type: float
             nullable: true

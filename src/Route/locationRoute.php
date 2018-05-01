@@ -9,7 +9,17 @@ use App\Repository\LocationRepository;
 $app->match('/location/create', function (Request $request) use ($app) {
 
 	$em = $app['orm.em'];
-	$location = new Location();
+
+	if ($request->get('network_id')) {
+		$location = $em->getRepository("Model\Location")->findOneBy(array('network_id' => $request->get('network_id')));
+		if ($location) {
+			return $app->json(array('msg' => 'Location already added', 'id' => $location->getId()), 200);
+		}
+		$location = new Location();
+		$location->setNetworkId($request->get('network_id'));
+	}
+	else
+		return $app->json("Network id missing or null", 406);
 
 	if ($request->get('user_id')) {
 		$user = $em->getRepository("Model\User")->find($request->get('user_id'));
@@ -69,6 +79,9 @@ $app->match('location/update/{id}', function (Request $request, $id) use ($app) 
 		else
 			return $app->json("No user with id " . $request->get('user_id') . " was found.", 404);
 	}
+
+	if ($request->get('network_id'))
+		$location->setNetworkId($request->get('network_id'));
 
 	if ($request->get('latitude'))
 		$location->setLatitude($request->get('latitude'));
