@@ -15,6 +15,11 @@ class Text
     /**
      * @var string
      */
+    private $network_id;
+
+    /**
+     * @var string
+     */
     private $content;
 
     /**
@@ -23,9 +28,9 @@ class Text
     private $context;
 
     /**
-     * @var string
+     * @var boolean
      */
-    private $network_id;
+    private $is_liked = false;
 
     /**
      * @var \DateTime
@@ -64,6 +69,30 @@ class Text
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Set networkId
+     *
+     * @param string $networkId
+     *
+     * @return Text
+     */
+    public function setNetworkId($networkId)
+    {
+        $this->network_id = $networkId;
+
+        return $this;
+    }
+
+    /**
+     * Get networkId
+     *
+     * @return string
+     */
+    public function getNetworkId()
+    {
+        return $this->network_id;
     }
 
     /**
@@ -115,27 +144,27 @@ class Text
     }
 
     /**
-     * Set networkId
+     * Set isLiked
      *
-     * @param string $networkId
+     * @param boolean $isLiked
      *
      * @return Text
      */
-    public function setNetworkId($networkId)
+    public function setIsLiked($isLiked)
     {
-        $this->network_id = $networkId;
+        $this->is_liked = $isLiked;
 
         return $this;
     }
 
     /**
-     * Get networkId
+     * Get isLiked
      *
-     * @return string
+     * @return boolean
      */
-    public function getNetworkId()
+    public function getIsLiked()
     {
-        return $this->network_id;
+        return $this->is_liked;
     }
 
     /**
@@ -289,20 +318,4 @@ class Text
      }
      return json_encode($json);
  }
-
-    /**
-    * Return JSON Object of the entity
-    *
-    * @return \JSON
-    */
-    public function getJson() {
-        $json = new \stdClass();
-
-        foreach ($this as $key => $value) {
-            if (strcmp($key, "__initializer__") != 0 && strcmp($key, "__cloner__") != 0 && strcmp($key, "__isInitialized__") != 0)
-                $json->$key = $value;
-        }
-
-        return $json;
-    }
 }

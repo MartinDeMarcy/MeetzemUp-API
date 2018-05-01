@@ -9,16 +9,21 @@ Model\Text:
             id: true
             generator:
                 strategy: AUTO
+        network_id:
+            type: string
+            lenght: 500
+            nullable: true
         content:
             type: string
             lenght: 500
         context:
             type: string
             lenght: 500
-        network_id:
-            type: string
-            lenght: 500
-            nullable: true
+
+        is_liked:
+            type: boolean
+            options:
+                default: false
         last_update:
             type: datetime
     manyToOne:

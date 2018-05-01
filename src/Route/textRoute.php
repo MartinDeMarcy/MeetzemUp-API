@@ -17,6 +17,8 @@ $app->match('/text/create', function (Request $request) use ($app) {
 			return $app->json(array('msg' => 'Text already added', 'id' => $text->getId()), 200);
 		}
 	}
+	else if (strcmp($request->get('context'), "t_hashtag") != 0)
+		return $app->json("Network id missing or null", 406);
 
 	if ($request->get('content') && $request->get('context')) {
 		$text = $em->getRepository("Model\Text")->findOneBy(array('content' => $request->get('content')));
@@ -28,7 +30,7 @@ $app->match('/text/create', function (Request $request) use ($app) {
 						$relation = true;
 					}
 					if ($relation)
-						return $app->json(array('msg' => 'Text already added and linked', 'id' => $text->getId()), 200);
+						return $app->json(array('msg' => 'Hashtag already added and linked', 'id' => $text->getId()), 200);
 					else if ($text->getId() == $parent->getId())
 						return $app->json("You can not link a text with itself", 406);
 					else
@@ -42,10 +44,11 @@ $app->match('/text/create', function (Request $request) use ($app) {
 		}
 		else {
 			$text = new Text();
+			$text->setNetworkId($request->get('network_id'));
 			$text->setContent($request->get('content'));
 			$text->setContext($request->get('context'));
 
-			if ($request->get('user_id')) {
+			if ($request->get('user_id') && strcmp($request->get('context'), "t_hashtag") != 0) {
 				$user = $em->getRepository("Model\User")->find($request->get('user_id'));
 				if ($user)
 					$text->setUser($user);
@@ -62,8 +65,8 @@ $app->match('/text/create', function (Request $request) use ($app) {
 					return $app->json("No text with id " . $request->get('relative_id') . " was found.", 404);
 			}
 
-			if ($request->get('processed'))
-				$text->setProcessed($request->get('processed'));
+			if ($request->get('is_liked'))
+				$text->setIsLiked($request->get('is_liked'));
 		}
 	}
 	else
@@ -110,11 +113,17 @@ $app->match('text/update/{id}', function (Request $request, $id) use ($app) {
 	if ($request->get('context'))
 		$text->setContext($request->get('context'));
 
-	/*if ($request->get('relative_id'))
-	$text->setRelativeId($request->get('relative_id'));*/
+	if ($request->get('relative_id')) {
+		$parent = $em->getRepository("Model\Text")->find($request->get('relative_id'));
+		if ($parent) {
+			$text->addTextParent($parent);
+		}
+		else
+			return $app->json("No text with id " . $request->get('relative_id') . " was found.", 404);
+	}
 
-	if ($request->get('processed'))
-		$text->setProcessed($request->get('processed'));
+	if ($request->get('is_liked'))
+		$text->setIsLiked($request->get('is_liked'));
 
 	$text->setLastUpdate(new DateTime(date('Y-m-d G:i:s')));
 	$em->persist($text);
