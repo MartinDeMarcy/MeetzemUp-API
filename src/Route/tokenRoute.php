@@ -15,15 +15,15 @@ $app->match('/token/create', function (Request $request) use ($app) {
 		if ($user)
 			$token->setUser($user);
 		else
-			return $app->json("No user with id " . $request->get('user_id') . " was found.", 404);
+			return $app->json(array('msg' => "No user with id " . $request->get('user_id') . " was found.", 'code' => 404));
 	}
 	else
-		return $app->json("User id missing or null", 406);
+		return $app->json(array('msg' => "User id missing or null", 'code' => 406));
 
 	if ($request->get('type'))
 		$token->setType($request->get('type'));
 	else
-		return $app->json("Type missing or null", 406);
+		return $app->json(array('msg' => "Type missing or null", 'code' => 406));
 
 	if ($request->get('network_id'))
 		$token->setNetworkId($request->get('network_id'));
@@ -43,7 +43,7 @@ $app->match('/token/create', function (Request $request) use ($app) {
 	$em->persist($token);
 	$em->flush();
 
-    return $app->json(array('msg' => 'Token correctly added', 'id' => $token->getId()), 201);
+    return $app->json(array('msg' => 'Token correctly added', 'id' => $token->getId(), 'code' => 201));
 });
 
 $app->match('token/get/{id}', function ($id) use ($app) {

@@ -9,28 +9,37 @@ use App\Repository\MatchRepository;
 $app->match('/match/create', function (Request $request) use ($app) {
 
 	$em = $app['orm.em'];
-	$match = new Match();
+	$tmp = 0;
 
-	if ($request->get('user_id')) {
+	if ($request->get('user_id') && $request->get('match_id'))
+	{
 		$user = $em->getRepository("Model\User")->find($request->get('user_id'));
-		if ($user)
-			$match->setUser($user);
-		else
+		if (!$user)
 			return $app->json("No user with id " . $request->get('user_id') . " was found.", 404);
-	}
-	else
-		return $app->json("User id missing or null", 406);
-
-	if ($request->get('match_id')) {
 		$userM = $em->getRepository("Model\User")->find($request->get('match_id'));
-		if ($userM)
-			$match->setMate($userM);
-		else
+		if (!$userM)
 			return $app->json("No user with id " . $request->get('match_id') . " was found.", 404);
+
+		$match = $em->getRepository("Model\Match")->findOneBy(array('user' => $user, 'mate' => $userM));
+		if (!$match) {
+			$tmp = 1;
+			$match = new Match();
+
+			$user = $em->getRepository("Model\User")->find($request->get('user_id'));
+			if ($user)
+				$match->setUser($user);
+			else
+				return $app->json("No user with id " . $request->get('user_id') . " was found.", 404);
+
+			$userM = $em->getRepository("Model\User")->find($request->get('match_id'));
+			if ($userM)
+				$match->setMate($userM);
+			else
+				return $app->json("No user with id " . $request->get('match_id') . " was found.", 404);
+		}
 	}
 	else
-		return $app->json("Match id missing or null", 406);
-
+		return $app->json("User id or match id is missing or null", 406);
 	if ($request->get('compatibility'))
 		$match->setCompatibility($request->get('compatibility'));
 	else
@@ -40,7 +49,10 @@ $app->match('/match/create', function (Request $request) use ($app) {
 	$em->persist($match);
 	$em->flush();
 
-    return $app->json(array('msg' => 'Match correctly added', 'id' => $match->getId()), 201);
+	if ($tmp == 1)
+		return $app->json(array('msg' => 'Match correctly added', 'id' => $match->getId()), 201);
+	else
+		return $app->json(array('msg' => 'Match already added but updated', 'id' => $match->getId()), 201);
 });
 
 $app->match('match/get/{id}', function ($id) use ($app) {
@@ -48,10 +60,10 @@ $app->match('match/get/{id}', function ($id) use ($app) {
 	$match = $em->find(Match::class, $id);
 
 	if (!$match) {
-        return $app->json('The match with id: ' . $id . ' was not found.', 404);
-    }
+		return $app->json('The match with id: ' . $id . ' was not found.', 404);
+	}
 
-    return $match->toJson(1);
+	return $match->toJson(1);
 });
 
 $app->match('match/update/{id}', function (Request $request, $id) use ($app) {
@@ -59,8 +71,8 @@ $app->match('match/update/{id}', function (Request $request, $id) use ($app) {
 	$match = $em->find(Match::class, $id);
 
 	if (!$match) {
-        return $app->json('The match with id: ' . $id . ' was not found.', 404);
-    }
+		return $app->json('The match with id: ' . $id . ' was not found.', 404);
+	}
 
 	if ($request->get('user_id')) {
 		$user = $em->getRepository("Model\User")->find($request->get('user_id'));
@@ -85,7 +97,7 @@ $app->match('match/update/{id}', function (Request $request, $id) use ($app) {
 	$em->persist($match);
 	$em->flush();
 
-    return $app->json('Match correctly updated', 200);
+	return $app->json('Match correctly updated', 200);
 });
 
 $app->match('match/delete/{id}', function ($id) use ($app) {
@@ -93,8 +105,8 @@ $app->match('match/delete/{id}', function ($id) use ($app) {
 	$match = $em->find(Match::class, $id);
 
 	if (!$match) {
-        return $app->json('The match with id: ' . $id . ' was not found.', 404);
-    }
+		return $app->json('The match with id: ' . $id . ' was not found.', 404);
+	}
 
 	$em->remove($match);
 	$em->flush();
@@ -108,8 +120,8 @@ $app->match('match/getbyuser/{id}', function ($id) use ($app) {
 	$user = $em->getRepository("Model\User")->find($id);
 
 	if (!$user) {
-        return new Response($app->json('The user with id: ' . $id . ' was not found.'), 404);
-    }
+		return new Response($app->json('The user with id: ' . $id . ' was not found.'), 404);
+	}
 
 	$matches = $em->getRepository("Model\Match")->findBy(
 		array('user' => $user->getId()),
