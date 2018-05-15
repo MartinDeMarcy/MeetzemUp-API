@@ -127,3 +127,15 @@ $app->match('user/delete/{id}', function ($id) use ($app) {
 
 	return new Response($app->json('User correctly removed'), 200);
 });
+
+$app->match('user/getallexcept/{id}', function ($id) use ($app) {
+	$em = $app['orm.em'];
+	$json = new \stdClass();
+	$users = $em->getRepository("Model\User")->getAllUserExceptOne($em, $id);
+
+	foreach ($users as $key => $value) {
+		$json->$key = $value;
+	}
+
+	return new Response(json_encode($json), 200);
+});
